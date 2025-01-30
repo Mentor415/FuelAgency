@@ -1,0 +1,62 @@
+:root {
+  --primary-color: #3b82f6;        /* Vibrant yet soft blue */
+  --secondary-color: #38bdf8;     /* A complementary lighter blue */
+  --background-color: #eef6fc;    /* Softer, less bright background */
+  --text-color: #334155;          /* Darker, modern text color for readability */
+  --error-color: #ef4444;         /* Slightly muted red for error messages */
+  --success-color: #10b981;       /* Softer green for success messages */
+  --border-color: #d1e3f2;        /* Subtle light blue for borders */
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Slightly lighter shadow */
+  padding: 30px;
+  border: 1px solid var(--border-color);     /* Added subtle border */
+}
+
+.text-center {
+  text-align: center;
+}
+
+.welcome-text {
+  font-size: 2.5em;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+}
+
+.error {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.success-message {
+  color: var(--success-color);
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.container {
+  margin-top: 2rem;
+  padding: 0 1rem;
+}
+
+.header {
+  margin-bottom: 0;
+}

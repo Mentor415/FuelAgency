@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Supplier List</title>
+    <style>
+        /* General Reset */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFF7F7;
+            color: #333;
+        }
+
+        header {
+            background-color: #0B2F9F;
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .filter-section {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-section input, .filter-section select {
+            padding: 0.8rem;
+            border: 1px solid #CFD7CF;
+            border-radius: 5px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid #CFD7CF;
+        }
+
+        tr:nth-child(even) {
+            background-color: #DFE4D6;
+        }
+
+        tr:hover {
+            background-color: #EAF7FB;
+        }
+
+        .button-group {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-group a {
+            text-decoration: none;
+            color: white;
+            background-color: #000B58;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .toggle-button {
+            text-decoration: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            background-color: rgb(0, 64, 128);
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-button.inactive {
+            background-color: #FD8A8A;
+        }
+
+        .toggle-button:hover {
+            opacity: 0.9;
+        }
+		a{
+			text-decoration: none;
+			background-color: rgb(0, 128, 255);
+			padding: 5px;
+			border-radius: 5px;
+			color: white;
+			text-align: center;
+			
+		}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Supplier Management System</h1>
+    </header>
+    <div class="container">
+        <div class="filter-section">
+            <input type="text" id="filter-id" name="filter-id" placeholder="Filter by ID">
+            <input type="text" id="filter-name" name="filter-name" placeholder="Filter by Name">
+            <select id="filter-status" name="filter-status">
+                <option value="">Filter by Status</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+            </select>
+        </div>
+		
+		<!-- Download PDF Button -->
+		<div class="text-center">
+			<a href="http://localhost:8081/downloadActiveSuppliersPdf" class="btn btn-primary">Download PDF</a>
+		</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Contact</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="supplier-table">
+                <tr th:each="supplier : ${suppliers}" class="supplier-row">
+                    <td th:text="${supplier.supplierID}" class="supplier-id"></td>
+                    <td th:text="${supplier.name}" class="supplier-name"></td>
+                    <td th:text="${supplier.address}"></td>
+                    <td th:text="${supplier.contact}"></td>
+                    <td th:text="${supplier.email}"></td>
+                    <td th:text="${supplier.active ? 'Active' : 'Inactive'}" class="supplier-status"></td>
+                    <td>
+                        <a th:href="@{/suppliers/edit/{id}(id=${supplier.supplierID})}" class="button-group" >Edit</a>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="button-group">
+            <a th:href="@{/}">Back to Home</a>
+			<a th:href="@{/deactivateForm}">Deactivate</a>
+            <a th:href="@{/addsupplier}">Add New Supplier</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const idFilter = document.getElementById("filter-id");
+            const nameFilter = document.getElementById("filter-name");
+            const statusFilter = document.getElementById("filter-status");
+            const rows = document.querySelectorAll(".supplier-row");
+
+            function filterTable() {
+                rows.forEach(row => {
+                    const id = row.querySelector(".supplier-id").textContent.toLowerCase();
+                    const name = row.querySelector(".supplier-name").textContent.toLowerCase();
+                    const status = row.querySelector(".supplier-status").textContent.toLowerCase();
+
+                    const idMatch = id.includes(idFilter.value.toLowerCase());
+                    const nameMatch = name.includes(nameFilter.value.toLowerCase());
+                    const statusMatch =
+                        statusFilter.value === "" || 
+                        (statusFilter.value === "true" && status === "active") ||
+                        (statusFilter.value === "false" && status === "inactive");
+
+                    row.style.display = idMatch && nameMatch && statusMatch ? "" : "none";
+                });
+            }
+
+            idFilter.addEventListener("input", filterTable);
+            nameFilter.addEventListener("input", filterTable);
+            statusFilter.addEventListener("change", filterTable);
+        });
+
+    </script>
+</body>
+</html>

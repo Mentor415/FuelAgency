@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Supplier Management System</title>
+    <style>
+        /* General Reset */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFF7F7; /* Soft pastel blue */
+            color: #333;
+        }
+
+        header {
+            background-color: #16325B; /* Slightly darker pastel blue */
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #CFD7CF; /* Adds a subtle border for depth */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 2rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .container p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .actions a {
+            text-decoration: none;
+            color: white;
+            background-color: rgb(0, 64, 128); /* Button color */
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .actions a:hover {
+            background-color: #1F509A; /* Darker shade for hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            margin-top: 2rem;
+            padding: 1rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            background-color: #CFD7CF; /* Footer background */
+            color: #333;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="bi bi-brilliance"></i>Fuel Management System</h1>
+    </header>
+    <div class="container">
+		<h3>Welcome to Supplier Module!</h3>
+        <div class="actions">
+			
+			<a th:href="@{/addsupplier}">Add Supplier</a>
+            <a th:href="@{/suppliers}">View Suppliers</a>
+        </div>
+    </div>
+    
+</body>
+</html>

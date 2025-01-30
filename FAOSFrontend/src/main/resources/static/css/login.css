@@ -1,0 +1,125 @@
+/* login.css */
+:root {
+  --primary-color: #3b82f6; /* Vibrant blue */
+  --secondary-color: #38bdf8; /* Lighter complementary blue */
+  --background-color: #eef2f7; /* Subtle gradient background */
+  --text-color: #334155; /* Darker, modern text color */
+  --error-color: #f87171; /* Softer red for error messages */
+  --input-border-color: #d1e3f2; /* Subtle border color */
+  --placeholder-color: #94a3b8; /* Light modern placeholder color */
+}
+
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(135deg, #f0f8ff, #cfe3fc);
+  margin: 0;
+  padding: 0;
+  color: #333;
+  text-align: center;
+}
+ 
+
+/* Header Styles */
+.header {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* Main Content */
+h1 {
+  font-size: 2rem;
+  margin: 20px 0;
+}
+
+p {
+  font-size: 1.2rem;
+  margin: 10px 0 30px;
+}
+
+#adminLoginBtn {
+  background-color: #28a745;
+  color: white;
+}
+
+#adminLoginBtn:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+#customerLoginBtn {
+  background-color: #007bff;
+  color: white;
+}
+
+#customerLoginBtn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Login Form */
+#loginFormContainer {
+  max-width: 400px;
+  margin: 20px auto;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+#loginForm {
+  padding: 20px;
+}
+
+#loginForm h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.form-control {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Submit Button */
+#loginForm button[type="submit"] {
+  background-color: #007bff;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 15px;
+  color: white;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+#loginForm button[type="submit"]:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+.error-info{
+    position: absolute;
+    left: 43%;
+}
+/* Animation */
+.fade-out {
+  animation: fadeOut 4s forwards;
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
