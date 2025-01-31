@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Success</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            max-width: 500px;
+            border: none;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #161D6F;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        .btn-custom {
+            background-color: #161D6F;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #0d144f;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: div}"></div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <span th:text="${message}">Operation Successful!</span>
+            </div>
+            <div class="card-body text-center">
+                <p class="text-muted">Your request was processed successfully.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/cylinders" class="btn btn-custom">View Cylinders</a>
+                    <a href="/add-cylinder" class="btn btn-custom">Add Another Cylinder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

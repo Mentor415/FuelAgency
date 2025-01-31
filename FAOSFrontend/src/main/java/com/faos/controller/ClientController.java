@@ -39,10 +39,10 @@ public class ClientController {
         return "supplierindex";
     }
     
-    @GetMapping("/supplier/home")
+    /*@GetMapping("/supplier/home")
     public String homePage() {
     	return "home";
-    }
+    }*/
 
     //view supplier
     @GetMapping("/suppliers")
