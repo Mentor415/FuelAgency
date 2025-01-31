@@ -7,107 +7,144 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Cylinder {
 
-	    @Id
-	    @Column(name = "id", nullable = false, unique = true)
-	    private String id; // Alphanumeric ID
+    @Id
+    @Column(name = "id", unique = true)
+    private String id;  // Corresponds to VARCHAR in DB
 
-	    @Column(name = "weight", nullable = false)
-	    private float weight;
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Cylinder type is required")
+    @Column(name = "cylinder_type", nullable = false)
+    private CylinderType type;  // Enums for Cylinder Type
 
-	    @Column(name = "cylinder_type", nullable = false)
-	    private String type;//Full or Empty
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Cylinder status is required")
+    @Column(name = "status", nullable = false)
+    private CylinderStatus status;  // Enums for Cylinder Status
 
-	    @Column(name = "status", nullable = false)
-	    private String status;//Available or Delivered
+    @Column(name = "created_date", nullable = true)
+    private LocalDateTime createdDate;  // LocalDateTime for DATETIME
 
-	    @Column(name = "created_date", nullable = false)
-	    private LocalDateTime createdDate;//Supplier's delivered date
+    @Column(name = "refill_date", nullable = true)
+    private LocalDateTime refillDate;  // LocalDateTime for DATETIME
 
-	    @Column(name = "refill_date", nullable = false, columnDefinition = "DATETIME DEFAULT NOW()")
-	    private LocalDateTime refillDate;//used when the cylinder is empty
-	    
-	    @ManyToOne
-	    @JoinColumn(name="supplierID")
-	    @JsonIgnoreProperties("cylinderList")
-	    private Supplier suppObj;
+    @NotNull(message = "Cylinder weight is required")
+    @Min(value = 0, message = "Cylinder weight must be a positive number")
+    @Column(name = "weight", nullable = false)
+    private Double weight;  // Double for numeric values
 
-	    // Default constructor with initialization for id
-	    public Cylinder() {
-	        this.id = generateAlphanumericId(); // Generate alphanumeric ID
-	    }
-
-	    // Constructor for easier initialization (without id)
-	    public Cylinder(float weight,String type, String status, LocalDateTime refillDate,LocalDateTime createddate) {
-	        this.id = generateAlphanumericId(); // Generate alphanumeric ID
-	        this.weight=weight;
-	        this.type = type;
-	        this.status = status;
-	        this.refillDate = refillDate;
-	        this.createdDate = createddate;
-	    }
-
-	    // Method to generate a unique alphanumeric ID
-	    private String generateAlphanumericId() {
-	        return "CYL-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase(); // CYL- followed by 8 random characters
-	    }
-
-		public String getId() {
-			return id;
-		}
-
-		public void setId(String id) {
-			this.id = id;
-		}
-
-		public float getWeight() {
-			return weight;
-		}
-
-		public void setWeight(float weight) {
-			this.weight = weight;
-		}
-
-		public String getType() {
-			return type;
-		}
-
-		public void setType(String type) {
-			this.type = type;
-		}
-
-		public String getStatus() {
-			return status;
-		}
-
-		public void setStatus(String status) {
-			this.status = status;
-		}
-
-		public LocalDateTime getCreatedDate() {
-			return createdDate;
-		}
-
-		public void setCreatedDate(LocalDateTime createdDate) {
-			this.createdDate = createdDate;
-		}
-
-		public LocalDateTime getRefillDate() {
-			return refillDate;
-		}
-
-		public void setRefillDate(LocalDateTime refillDate) {
-			this.refillDate = refillDate;
-		}
-
-	    
-	}
+    // Many-to-one relationship with Supplier (Mapping foreign key to supplier_id)
+    @ManyToOne
+    @JoinColumn(name = "supplierID", nullable = false)  // Foreign key column in DB
+    @JsonIgnoreProperties("cylinderList")
+    private Supplier supplier;  // Supplier associated with the cylinder
+    
+    @JsonIgnoreProperties
+    @OneToOne
+    @JoinColumn(name = "bookingId", referencedColumnName = "bookingId", nullable = true)
+    private Booking booking;
 
 
+    // Constructors
+    public Cylinder() {
+        this.id = generateAlphanumericId();  // Automatically generate the ID
+    }
+
+    public Cylinder(CylinderType type, CylinderStatus status, Double weight,Supplier supplier) {
+        this();
+        this.type = type;
+        this.status = status;
+        this.weight = weight;
+        this.supplier= supplier;
+    }
+
+    private String generateAlphanumericId() {
+        return "CYL-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
+    // Getter methods
+    public String getId() {
+        return id;
+    }
+
+    public CylinderType getType() {
+        return type;
+    }
+
+    public CylinderStatus getStatus() {
+        return status;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public LocalDateTime getRefillDate() {
+        return refillDate;
+    }
+
+    // Setter methods (No setters for createdDate and refillDate)
+    public void setType(CylinderType type) {
+        this.type = type;
+    }
+
+    public void setStatus(CylinderStatus status) {
+        this.status = status;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public void setSupplier(Supplier supplier2) {
+        this.supplier = supplier2;
+    }
+    
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+
+    // Callback methods for entity lifecycle
+    @PrePersist
+    public void onCreate() {
+        this.createdDate = LocalDateTime.now();  // Set created date on persistence
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.refillDate = LocalDateTime.now();  // Set refill date on update
+    }
+
+    // toString method
+    @Override
+    public String toString() {
+        return "Cylinder [id=" + id + ", type=" + type + ", status=" + status 
+                + ", createdDate=" + createdDate + ", refillDate=" + refillDate 
+                + ", weight=" + weight + "]";
+    }
+}

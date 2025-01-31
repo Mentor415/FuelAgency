@@ -1,11 +1,7 @@
 package com.faos.model;
 
-import java.time.LocalDate;
-
- 
-
 import jakarta.persistence.*;
-
+import java.time.LocalDate;
 @Entity
 @Table(name = "Bookings")
 public class Booking {
@@ -13,14 +9,30 @@ public class Booking {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long bookingId;
-    private String cylinderType;
-    private String timeSlot;
+
+	private String timeSlot;
 	private String deliveryOption;
 	private String paymentOption;
 	private LocalDate deliveryDate;
-	private LocalDate bookingDate = LocalDate.now();
+	private LocalDate bookingDate;
 
-    @PrePersist
+	// Many-to-One relationship with Cylinder
+	@OneToOne
+	@JoinColumn(name = "id", referencedColumnName = "id")
+	private Cylinder cylinder;
+
+	// One-to-One relationship with Bill
+	@OneToOne
+	@JoinColumn(name = "bill_id", referencedColumnName = "billId")
+	private Bill bill;
+
+	// Many-to-One relationship with Customer
+	@ManyToOne
+	@JoinColumn(name = "consumerId", referencedColumnName = "consumerId")
+	private Customer customer;
+
+	// PrePersist method
+	@PrePersist
 	public void prePersist() {
 		if (deliveryDate == null) {
 			if ("Normal".equals(deliveryOption)) {
@@ -42,14 +54,6 @@ public class Booking {
 		this.bookingId = bookingId;
 	}
 
-	public String getCylinderType() {
-		return cylinderType;
-	}
-
-	public void setCylinderType(String cylinderType) {
-		this.cylinderType = cylinderType;
-	}
-
 	public String getTimeSlot() {
 		return timeSlot;
 	}
@@ -64,6 +68,14 @@ public class Booking {
 
 	public void setDeliveryOption(String deliveryOption) {
 		this.deliveryOption = deliveryOption;
+	}
+
+	public String getPaymentOption() {
+		return paymentOption;
+	}
+
+	public void setPaymentOption(String paymentOption) {
+		this.paymentOption = paymentOption;
 	}
 
 	public LocalDate getDeliveryDate() {
@@ -82,25 +94,27 @@ public class Booking {
 		this.bookingDate = bookingDate;
 	}
 
-	public String getPaymentOption() {
-		return paymentOption;
+	public Cylinder getCylinder() {
+		return cylinder;
 	}
 
-	public void setPaymentOption(String paymentOption) {
-		this.paymentOption = paymentOption;
-	}
-	
-	@ManyToOne
-	@JoinColumn(name = "consumerId")
-	@com.fasterxml.jackson.annotation.JsonIgnoreProperties("bookingList")
-	private Customer customerObj;
-
-	public Customer getCustomerObj() {
-        return customerObj;
-    }
-
-	public void setCustomerObj(Customer savedCustomer) {
-		this.customerObj = customerObj;
+	public void setCylinder(Cylinder cylinder) {
+		this.cylinder = cylinder;
 	}
 
+	public Bill getBill() {
+		return bill;
+	}
+
+	public void setBill(Bill bill) {
+		this.bill = bill;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 }

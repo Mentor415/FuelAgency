@@ -36,8 +36,8 @@ public class Supplier {
 	
 	private boolean active=true;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="suppObj")
-	@JsonIgnoreProperties("suppObj")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="supplier")
+	@JsonIgnoreProperties("supplier")
 	private List<Cylinder> cylinderList;
 
 	public String getSupplierID() {
