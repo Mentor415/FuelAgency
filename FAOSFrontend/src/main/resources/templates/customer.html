@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fuel Booking</title>
+  <link rel="stylesheet" th:href="@{/css/booking.css}">
+</head>
+<body>
+<header>
+  <div class="logo">Fuel Agency</div>
+  <nav>
+    <ul>
+      <li><a href="/home">Home</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/booking" class="active">Booking</a></li>
+      <li><a href="/about">About Us</a></li>
+      <li><a href="/contact">Contact Us</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="booking-form">
+  <div>
+    <img th:src="@{/images/user2.png}" alt="Customer Image" class="custImg">
+  </div>
+  <div>
+    <p th:if="${permit}" th:text="${permit}" id="alertMessage"></p>
+  </div>
+
+  <form th:action="@{/booking}" th:object="${bookingPageView}" method="POST" enctype="multipart/form-data">
+    <div class="form-section">
+      <h3>Customer Information</h3>
+      <div class="form-fields-container">
+        <div class="form-field">
+          <label>CustomerId:</label>
+          <input type="text" th:field="*{consumerId}" readonly />
+        </div>
+        <div class="form-field">
+          <label>Name:</label>
+          <input type="text" th:field="*{consumerName}" readonly />
+        </div>
+        <div class="form-field">
+          <label>Address:</label>
+          <textarea th:field="*{address}" rows="3" readonly></textarea>
+        </div>
+        <div class="form-field">
+          <label>Phone Number:</label>
+          <input type="tel" th:field="*{contactNo}" readonly />
+        </div>
+        <div class="form-field">
+          <label>Email:</label>
+          <input type="email" th:field="*{email}" readonly />
+        </div>
+        <div class="form-field">
+          <label>Cylinder Type:</label>
+          <input type="text" th:field="*{connType}" readonly />
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="form-field">
+      <button type="submit">Book </button>
+
+      <!--            <a th:href="@{/history?consumerId=${bookingPageView.consumerId}}" th:text="'See booking history'"></a>-->
+    </div>
+  </form>
+
+
+  <form th:action="@{/submit-booking}" th:object="${bookingPageView}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{consumerId}" />
+    <a th:href="@{/history?consumerId={consumerId}(consumerId=${bookingPageView.consumerId})}" class="booking">Booking history </a>
+  </form>
+<!--  <form th:action="@{/submit-booking}" th:object="${bookingPageView}" method="POST" enctype="multipart/form-data">-->
+<!--    <input type="hidden" th:field="*{consumerId}" />-->
+<!--    <a th:href="@{/history?consumerId={consumerId}(consumerId=${bookingPageView.consumerId})}">Book Cylinder</a>-->
+<!--  </form>-->
+
+</section>
+
+<!--<script>-->
+<!--  document.addEventListener("DOMContentLoaded", function () {-->
+<!--      var alertMessage = document.getElementById("alertMessage");-->
+<!--      if (alertMessage && alertMessage.innerText.trim() !== "") {-->
+<!--          alert(alertMessage.innerText);-->
+<!--      }-->
+<!--  });-->
+</script>
+</body>
+</html>

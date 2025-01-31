@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,10 +29,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Configuration
 public class ClientController {
 	
-	@Bean
-    public RestTemplate getRestTemplate() {
-        return new RestTemplate();
-    }
+	@Autowired
+    public RestTemplate getRestTemplate;
 
     private final String backendUrl = "http://localhost:8080";
 
@@ -49,7 +47,7 @@ public class ClientController {
     //view supplier
     @GetMapping("/suppliers")
     public String viewSuppliers(Model model) {
-        ResponseEntity<Supplier[]> response = getRestTemplate().getForEntity(backendUrl + "/suppliers", Supplier[].class);
+        ResponseEntity<Supplier[]> response = getRestTemplate.getForEntity(backendUrl + "/suppliers", Supplier[].class);
         List<Supplier> suppliers = Arrays.asList(response.getBody());
         model.addAttribute("suppliers", suppliers);
         return "viewsuppliers";
@@ -76,7 +74,7 @@ public class ClientController {
 	    }
         
         try {
-        	ResponseEntity<Supplier> response = getRestTemplate().postForEntity(backendUrl + "/addSupplier", supplier, Supplier.class);
+        	ResponseEntity<Supplier> response = getRestTemplate.postForEntity(backendUrl + "/addSupplier", supplier, Supplier.class);
         	Supplier suppObj = response.getBody();
         	model.addAttribute("message", "Supplier details added successfully!");
             model.addAttribute("supplier", suppObj); // Reset the form fields
@@ -111,7 +109,7 @@ public class ClientController {
     public String editSupplierForm(@PathVariable String id, Model model) {
         // Fetch supplier details from backend
     	System.out.println(id);
-        ResponseEntity<Supplier> response = getRestTemplate().getForEntity(backendUrl + "/supplier/" + id, Supplier.class);
+        ResponseEntity<Supplier> response = getRestTemplate.getForEntity(backendUrl + "/supplier/" + id, Supplier.class);
         Supplier supplier = response.getBody();
         model.addAttribute("supplier", supplier);
         return "editsupplier"; // Map to editsupplier.html
@@ -128,7 +126,7 @@ public class ClientController {
 	    }
         
     	try {
-    		getRestTemplate().put(backendUrl + "/supplier/" + supplier.getSupplierID(), supplier);
+    		getRestTemplate.put(backendUrl + "/supplier/" + supplier.getSupplierID(), supplier);
     		return "redirect:/suppliers";
     		
     	}catch (HttpClientErrorException e) {
@@ -156,7 +154,7 @@ public class ClientController {
     @GetMapping("/deactivateForm")
     public String deactivateForm(@RequestParam(required=false) String id, Model model) {
     	if(id!=null) {
-			ResponseEntity<Supplier> response = getRestTemplate().getForEntity(backendUrl +"/supplier/"+id, Supplier.class);
+			ResponseEntity<Supplier> response = getRestTemplate.getForEntity(backendUrl +"/supplier/"+id, Supplier.class);
 			if(response.hasBody()) {
 				model.addAttribute("supplier",response.getBody());
 				model.addAttribute("message", "Supplier deactivated successfully!");
@@ -170,7 +168,7 @@ public class ClientController {
     @PostMapping("/deactivate")
 	public String deactivateSupplier(@RequestParam String id, Model model) {
 		try {
-			getRestTemplate().put(backendUrl +"/deactivateSupplier/"+id, Supplier.class);
+			getRestTemplate.put(backendUrl +"/deactivateSupplier/"+id, Supplier.class);
 			//model.addAttribute("message","Supplier deactivated successfully");
 			return "redirect:/suppliers";
 		}catch(HttpClientErrorException e) {

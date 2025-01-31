@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking History</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            color: #007bff;
+            padding-top: 30px;
+        }
+        section {
+            width: 80%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        td {
+            background-color: #fafafa;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        p {
+            text-align: center;
+            color: #ff4d4d;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            section {
+                width: 90%;
+                padding: 15px;
+            }
+            table {
+                font-size: 14px;
+            }
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<section>
+    <h2>Booking History</h2>
+    <div th:if="${history != null}">
+        <table>
+            <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Booking Date</th>
+                <th>Time Slot</th>
+                <th>Delivery Option</th>
+                <th>Delivery Date</th>
+                <th>Payment Option</th>
+                <th>ConsumerId</th>
+                <th>Bill</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="booking : ${history}">
+                <td th:text="${booking.bookingId}"></td>
+                <td th:text="${booking.bookingDate}"></td>
+                <td th:text="${booking.timeSlot}"></td>
+                <td th:text="${booking.deliveryOption}"></td>
+                <td th:text="${booking.deliveryDate}"></td>
+                <td th:text="${booking.paymentOption}"></td>
+                <td th:text="*{consumerId}"></td>
+
+                <th>
+                    <form th:action="@{/downloadBill}" method="post">
+                    <input type="hidden" name="bookingId" th:value="${booking.bookingId}">
+                    <input type="hidden" name="consumerId" th:value="*{consumerId}">
+<!--                    <input type="hidden" name="email" th:value="${book.email}">-->
+<!--                    <input type="hidden" name="contactNo" th:value="${book.contactNo}">-->
+<!--                    <input type="hidden" name="connType" th:value="${book.connType}">-->
+<!--                    <input type="hidden" name="timeSlot" th:value="${book.timeSlot}">-->
+<!--                    <input type="hidden" name="deliveryOption" th:value="${book.deliveryOption}">-->
+<!--                    <input type="hidden" name="deliveryDate" th:value="${book.deliveryDate}">-->
+<!--                    <input type="hidden" name="deliveryDate" th:value="${book.deliveryDate}">-->
+<!--                    <input type="hidden" name="price" th:value="${book.price}">-->
+<!--                    <input type="hidden" name="paymentOption" th:value="${book.paymentOption}">-->
+                    <button type="submit">Download</button>
+                </form> </th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p th:if="${history == null || #lists.isEmpty(history)}">No booking history found.</p>
+</section>
+
+</body>
+</html>
