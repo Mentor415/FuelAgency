@@ -1,17 +1,141 @@
 package com.faos.service;
 
-import com.faos.model.Cylinder;
-import com.faos.repository.CylinderRepository;
-import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
+
+import com.faos.exception.InvalidEntityException;
+import com.faos.model.Cylinder;
+import com.faos.model.Supplier;
+import com.faos.repository.CylinderRepository;
+import com.faos.repository.SupplierRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class CylinderService {
 
     @Autowired
     private CylinderRepository cylinderRepository;
+    
+    @Autowired
+    private SupplierRepository supplierRepository;
+    
+ // Get all cylinders
+    public List<Cylinder> getAllCylinders() throws InvalidEntityException {
+        try {
+            return cylinderRepository.findAll();
+        } catch (Exception e) {
+            throw new InvalidEntityException("Error retrieving cylinders");
+        }
+    }
+
+    // Add a new cylinder
+    public Cylinder addCylinder(Cylinder cylinder, String suppId) throws InvalidEntityException {
+        if (cylinder.getType() == null) {
+            throw new InvalidEntityException("Cylinder type cannot be null");
+        }
+        if (cylinder.getStatus() == null) {
+            throw new InvalidEntityException("Cylinder status cannot be null");
+        }
+        if (cylinder.getWeight() == null || cylinder.getWeight() <= 0) {
+            throw new InvalidEntityException("Cylinder weight must be a positive number");
+        }
+        // Save and return cylinder
+        try {
+        	Optional<Supplier> suppOptional = supplierRepository.findById(suppId);
+        	if (suppOptional.isPresent()) {
+                cylinder.setSupplier(suppOptional.get());
+                return cylinderRepository.save(cylinder);
+            }else {
+                throw new InvalidEntityException("Project Id does not exist");
+            }
+            
+        } catch (Exception e) {
+        	e.printStackTrace();  
+            throw new InvalidEntityException("Error adding cylinder");
+        }
+    }
+
+    // Get a cylinder by ID
+    public Optional<Cylinder> getCylinderById(String id) throws InvalidEntityException {
+        try {
+            if (!cylinderRepository.existsById(id)) {
+                throw new InvalidEntityException("Cylinder not found");
+            }
+            return cylinderRepository.findById(id);
+        } catch (Exception e) {
+            throw new InvalidEntityException("Error retrieving cylinder by ID");
+        }
+    }
+
+    // Update an existing cylinder
+    public Cylinder updateCylinder(String id, Cylinder updatedCylinder) throws InvalidEntityException {
+    	return cylinderRepository.findById(id)
+    	        .map(existingCylinder -> {
+    	            existingCylinder.setType(updatedCylinder.getType());
+    	            existingCylinder.setStatus(updatedCylinder.getStatus());
+    	            existingCylinder.setWeight(updatedCylinder.getWeight());
+
+    	            if (updatedCylinder.getSupplier() != null) {
+    	                String supplierId = updatedCylinder.getSupplier().getSupplierID();
+    	                Optional<Supplier> supplierOpt = supplierRepository.findById(supplierId);
+    	                if (supplierOpt.isPresent()) {
+    	                    existingCylinder.setSupplier(supplierOpt.get());
+    	                } else {
+    	                    throw new InvalidEntityException("Supplier not found");
+    	                }
+    	            }
+
+    	            return cylinderRepository.save(existingCylinder);
+    	        })
+    	        .orElseThrow(() -> new InvalidEntityException("Cylinder not found"));
+    }
+
+
+    // Delete a cylinder
+    public void deleteCylinder(String id) throws InvalidEntityException {
+        try {
+            if (!cylinderRepository.existsById(id)) {
+                throw new InvalidEntityException("Cylinder not found");
+            }
+            cylinderRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new InvalidEntityException("Error deleting cylinder");
+        }
+    }
+
+    // Get cylinders by supplier ID
+    public List<Cylinder> getCylindersBySupplier(String supplierID) throws InvalidEntityException {
+        try {
+            return cylinderRepository.findBySupplierId(supplierID);
+        } catch (Exception e) {
+            throw new InvalidEntityException("Error retrieving cylinders by supplier");
+        }
+    }
+
+    // Get all suppliers
+    public List<Supplier> getAllSuppliers() {
+        return StreamSupport.stream(cylinderRepository.findAll().spliterator(), false)
+                            .map(Cylinder::getSupplier)
+                            .distinct()
+                            .collect(Collectors.toList());
+    }
+
+ // Get a supplier by ID
+    public Optional<Supplier> getSupplierById(String id) {
+        return StreamSupport.stream(cylinderRepository.findAll().spliterator(), false)
+                            .map(Cylinder::getSupplier)
+                            .filter(supplier -> supplier.getSupplierID().equals(id))
+                            .findFirst();
+    }
+    
+    
+    
 
     // Method to get cylinder by type
     public String getCylinderId(String type) {

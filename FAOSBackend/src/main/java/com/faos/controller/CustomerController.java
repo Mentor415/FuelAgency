@@ -29,7 +29,7 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@PostMapping("/register")
-	public ResponseEntity<?> registerCustomer(@Valid @RequestBody Customer customer, BindingResult result) {
+	public ResponseEntity<?> registerCustomer(@Validated @RequestBody Customer customer, BindingResult result) {
 		if (result.hasErrors()) {
 			Map<String, String> errors = new HashMap<>();
 			result.getFieldErrors().forEach(error ->

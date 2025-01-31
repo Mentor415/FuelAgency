@@ -81,6 +81,14 @@ public class EmailService {
         mailSender.send(message);
     }
     
+    public void sendLowStockAlert(String to, String itemName, int quantity) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Low Stock Alert");
+        message.setText("The item '" + itemName + "' is low in stock. Remaining quantity: " + quantity);
+        mailSender.send(message);
+    }
+    
 }
 
 
