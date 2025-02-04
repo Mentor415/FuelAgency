@@ -20,13 +20,7 @@ body {
 }
  
 
-/* Header Styles */
-.header {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+
 /* Main Content */
 h1 {
   font-size: 2rem;
@@ -106,20 +100,18 @@ p {
   background-color: #0056b3;
   transform: scale(1.05);
 }
-.error-info{
-    position: absolute;
-    left: 43%;
+.loginBtn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-/* Animation */
-.fade-out {
-  animation: fadeOut 4s forwards;
-}
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
+@media screen and (max-width: 768px){
+
+  .loginBtn{
+    flex-direction: column;
+    gap: 8px;
   }
-  100% {
-    opacity: 0;
-    display: none;
+  .nav-logo{
+    font-size: 1rem;
   }
 }

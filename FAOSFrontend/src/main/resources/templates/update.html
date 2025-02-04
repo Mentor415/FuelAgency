@@ -8,9 +8,40 @@
     <link rel="stylesheet" href="/css/components/header.css">
     <link rel="stylesheet" href="/css/components/forms.css">
     <link rel="stylesheet" href="/css/components/buttons.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+    <style>
+        .text-danger {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            padding: .75rem 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+        }
+        .form-control.error {
+            border-color: #dc3545;
+        }
+    </style>
 </head>
 <body>
-<header class="header">
+<header class="header" style="display: flex; justify-content: center;">
+    <a href="/home" class="nav-logo">
+        <i class="fas fa-gas-pump me-2"></i>
+        <!-- Fuel pump icon -->
+        Bharat Gas
+      </a>
+    
+      
+      <ul class="nav-list" id="nav-list" style="display: block;">
     <nav class="nav">
         <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
         <li class="nav-item"><a href="/customers" class="nav-link">Display Customers</a></li>
@@ -21,9 +52,7 @@
     <div class="card">
         <h2 class="text-center">Update Customer Information</h2>
 
-        <form th:action="@{'/update/' + ${customer.consumerId}}" th:object="${customer}" method="post">
-            <input type="hidden" th:field="*{consumerId}">
-
+       <form th:action="@{/update/{id}(id=${id != null ? id : customer.consumerId})}" th:object="${customer}" method="post">
             <div class="form-group">
                 <label class="form-label" for="name">Name:</label>
                 <input type="text" class="form-control" id="name" th:field="*{consumerName}" required>
@@ -35,16 +64,19 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="contact">Contact Number:</label>
-                <input type="tel" class="form-control" id="contact" th:field="*{contactNo}"
-                       pattern="^[6-9]\d{9}$"
-                       title="Phone number must start with 6-9 and be 10 digits long"
-                       required>
+                <label class="form-label" for="email">Email:</label>
+                <input type="text" class="form-control" id="email" th:field="*{email}" required>
+                <div th:if="${#fields.hasErrors('email')}" class="text-danger">
+                    <span th:text="${#fields.errors('email').get(0)}"></span>
+                </div>
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="email">Email:</label>
-                <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                <label class="form-label" for="contact">Contact Number:</label>
+                <input type="text" class="form-control" id="contact" th:field="*{contactNo}" required>
+                <div th:if="${#fields.hasErrors('contactNo')}" class="text-danger">
+                    <span th:text="${#fields.errors('contactNo').get(0)}"></span>
+                </div>
             </div>
 
             <div class="form-group">
@@ -52,12 +84,10 @@
                 <input type="text" class="form-control" id="connType" th:field="*{connType}" readonly>
             </div>
 
-            <div class="actions">
-                <button type="submit" class="btn btn-primary">Update</button>
-                <a href="/customers" class="btn btn-secondary">Cancel</a>
-            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
         </form>
     </div>
 </div>
+
 </body>
 </html>

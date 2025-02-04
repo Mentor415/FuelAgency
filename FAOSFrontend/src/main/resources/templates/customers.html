@@ -10,15 +10,22 @@
     <link rel="stylesheet" href="/css/components/cbuttons.css" />
     <link rel="stylesheet" href="/css/components/customers.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
 </head>
 <body>
 <header class="header">
     <nav class="nav">
+        <a href="/home" class="nav-logo " >
+            <i class="fas fa-gas-pump "></i> Bharat Gas
+          </a>
         <li class="nav-item">
             <a href="/" class="nav-link">Home</a>
         </li>
         <li class="nav-item dropdown">
-            <a href="#" class="nav-link">Customer</a>
+            <a href="#" class="nav-link" style="text-decoration: none;">Customer</a>
             <div class="dropdown-content">
                 <a href="/register" class="dropdown-item">Customer Registration</a>
                 <a href="/customers" class="dropdown-item">Display Customers</a>
@@ -147,5 +154,6 @@
         }
     });
 </script>
+<script src="/js/hamburgerMenu.js"></script>
 </body>
 </html>
