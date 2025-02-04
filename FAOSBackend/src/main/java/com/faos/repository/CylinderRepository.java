@@ -46,17 +46,17 @@ public interface CylinderRepository extends JpaRepository<Cylinder, String> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE cylinders SET status = 'delivered' , type='empty' WHERE cylinderid = :cylinderid", nativeQuery = true)
+    @Query(value = "UPDATE cylinder SET status = 'delivered' , type='empty' WHERE cylinderid = :cylinderid", nativeQuery = true)
     void updateCylinderStatus(String cylinderid);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE cylinders SET bookingId = :bookingId WHERE cylinderid = :cylinderid", nativeQuery = true)
+    @Query(value = "UPDATE cylinder SET bookingId = :bookingId WHERE cylinderid = :cylinderid", nativeQuery = true)
     int updateCylinderBookingId(@Param("cylinderid") String cylinderid, @Param("bookingId") Long bookingId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE cylinders SET status = 'Available', bookingId = null, type='full' WHERE bookingId = :bookingIds", nativeQuery = true)
+    @Query(value = "UPDATE cylinder SET status = 'Available', bookingId = null, type='full' WHERE bookingId = :bookingIds", nativeQuery = true)
     void updateCylinder(long bookingIds);
 
 }

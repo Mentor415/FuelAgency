@@ -45,7 +45,7 @@ public class Controllers {
     public String customerLogin(@ModelAttribute BookingPageView booking, Model model) {
         try {
             ResponseEntity<BookingPageView> response = getRestTemplate().postForEntity(
-                    "http://localhost:8080/login", booking, BookingPageView.class);
+                    "http://localhost:8080/logins", booking, BookingPageView.class);
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 BookingPageView customer = response.getBody();
                 model.addAttribute("bookingPageView", customer);
@@ -75,7 +75,7 @@ public class Controllers {
     public String booking(@ModelAttribute BookingPageView booking, Model model) {
         try {
             ResponseEntity<BookingPageView> response = getRestTemplate().postForEntity(
-                    "http://localhost:8080/login", booking, BookingPageView.class);
+                    "http://localhost:8080/logins", booking, BookingPageView.class);
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 BookingPageView customer = response.getBody();
                 model.addAttribute("bookingPageView", customer);

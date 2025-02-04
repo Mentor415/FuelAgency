@@ -40,19 +40,19 @@ public class CustomerBookingController {
     private BillService billService;
     
 
-//    @PostMapping("/login")
-//    public ResponseEntity<Customer> customerLogin(@RequestBody Customer customer) {
-//        try {
-//            Optional<Customer> existingCustomer = customerService.getCustomerByIds(customer.getConsumerId());
-//            if (existingCustomer.isPresent()) {
-//                return new ResponseEntity<>(existingCustomer.get(), HttpStatus.OK);
-//            }
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        } catch (Exception e) {
-//            // Return custom error message
-//            throw new CustomException("An error occurred while logging in.", e);
-//        }
-//    }
+    @PostMapping("/logins")
+    public ResponseEntity<Customer> customerLogin(@RequestBody Customer customer) {
+        try {
+            Optional<Customer> existingCustomer = customerService.getCustomerByIds(customer.getConsumerId());
+            if (existingCustomer.isPresent()) {
+                return new ResponseEntity<>(existingCustomer.get(), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            // Return custom error message
+            throw new CustomException("An error occurred while logging in.", e);
+        }
+    }
 
     @PostMapping("/addbooking")
     public ResponseEntity<?> addBooking(@RequestParam String cylinderid, @RequestParam String consumerId, @RequestBody Booking booking ) {
