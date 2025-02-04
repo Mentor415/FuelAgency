@@ -25,18 +25,20 @@ public class LoginController {
 
     @Autowired
     private RestTemplate restTemplate;
+  
+    
+   @GetMapping("/login")
+   public String showLoginPage() {
 
-    @GetMapping("/login")
-    public String showLoginPage() {
-        return "login";
-    }
+      return "redirect:/logout";
+   }
 
     @PostMapping("/login")
     public String processLogin(@RequestParam String userId,
             @RequestParam String password,
             @RequestParam String userType,
             Model model,
-            HttpSession session) {
+            HttpSession session ,RedirectAttributes redirectAttributes) {
         try {
             // Create login object matching backend expectations
             Login loginRequest = new Login();
@@ -55,18 +57,19 @@ public class LoginController {
                 // Store user info in session
                 session.setAttribute("userId", userId);
                 session.setAttribute("userType", userType);
-
                 // Redirect based on user type
                 if ("ADMIN".equals(userType)) {
+                    redirectAttributes.addFlashAttribute("success",response.getBody());
                     return "redirect:/";  // Redirect admin to customer list
+                    
                 } else if ("CUSTOMER".equals(userType)) {
+                    redirectAttributes.addFlashAttribute("success",response.getBody());
                     return "redirect:/customer/dashboard";  // Redirect customer to dashboard
                 }
             }
         } catch (HttpClientErrorException e) {
-            String errorMessage = "Invalid credentials. Please try again.";
             if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-                errorMessage = "Invalid username or password";
+               String errorMessage = "Invalid username or password";
                 model.addAttribute("error", errorMessage);
             }
         } catch (Exception e) {
@@ -86,7 +89,7 @@ public class LoginController {
                 && session.getAttribute("userType") != null;
     }
    @PostMapping("customer/updatepassword")
-public String updatePass(@RequestParam String consumerId, @RequestParam String consumerPass, RedirectAttributes redirectAttributes) {
+    public String updatePass(@RequestParam String consumerId, @RequestParam String consumerPass, RedirectAttributes redirectAttributes) {
     Login loginRequest = new Login();
     loginRequest.setUserId(consumerId);
     loginRequest.setPassword(consumerPass);

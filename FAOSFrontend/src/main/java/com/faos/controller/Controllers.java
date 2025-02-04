@@ -1,7 +1,5 @@
 package com.faos.controller;
 
-import java.awt.Font;
-import java.awt.Font.*;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -20,12 +18,8 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 import com.faos.model.BookingPageView;
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -38,7 +32,7 @@ public class Controllers {
     
     @GetMapping("/")
     public String home() {
-        return "bindex";
+        return "index";
     }
     @GetMapping("/BookingLogin")
     public String login(Model model) {
