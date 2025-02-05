@@ -3,8 +3,10 @@
 <head>
     <title>Add Cylinder</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	
 </head>
 <body>
+	<div th:replace="~{fragments/cylinder-navbar :: nav}"></div>
 
     <!-- Sidebar -->
     <div th:replace="~{fragments/sidebar :: div}"></div>
@@ -19,9 +21,7 @@
                 <form th:action="@{/save-cylinder}" method="post" th:object="${cylinder}">
                     <div class="mb-3">
                         <label class="form-label">Cylinder Type</label>
-                        <select name="type" class="form-select" th:field="*{type}" required>
-							<option value="">Select type</option>
-                            <option value="FULL">Full</option>
+                        <select name="type" class="form-select" th:field="*{type}" required readonly>
                             <option value="EMPTY">Empty</option>
                         </select>
                     </div>
@@ -33,10 +33,8 @@
 
                     <div class="mb-3">
                         <label class="form-label" th:field="*{status}">Status</label>
-                        <select name="status" class="form-select" required>
-							<option value="">Select status</option>
+                        <select name="status" class="form-select" required readonly>
                             <option value="AVAILABLE">Available</option>
-                            <option value="DELIVERED">Delivered</option>
                         </select>
                     </div>
 

@@ -45,7 +45,7 @@ public class CylinderController {
     
     @GetMapping("/add-cylinder")
     public String showAddCylinderForm(Model model) {
-        ResponseEntity<Supplier[]> response = restTemplate.getForEntity("http://localhost:8080/api/cylinders/suppliers", Supplier[].class);
+        ResponseEntity<Supplier[]> response = restTemplate.getForEntity("http://localhost:8080/suppliers", Supplier[].class);
         List<Supplier> suppliers = Arrays.asList(response.getBody());
         
         model.addAttribute("cylinder", new Cylinder());
@@ -64,7 +64,7 @@ public class CylinderController {
     
     @GetMapping("/update-cylinder")
     public String updateCylinderForm(Model model) {
-        ResponseEntity<Supplier[]> response = restTemplate.getForEntity("http://localhost:8080/api/cylinders/suppliers", Supplier[].class);
+        ResponseEntity<Supplier[]> response = restTemplate.getForEntity("http://localhost:8080/suppliers", Supplier[].class);
         List<Supplier> suppliers = Arrays.asList(response.getBody());
 
         model.addAttribute("suppliers", suppliers);
@@ -118,6 +118,27 @@ public class CylinderController {
     	 model.addAttribute("message","CylinderID  "+ cylinderId + " deleted successfully!");
     	 return "cylinder-success";
     }
+    
+    // Fetch all empty and available cylinders
+    @GetMapping("/refill-cylinder")
+    public String showEmptyAvailableCylinders(Model model) {
+        ResponseEntity<Cylinder[]> response = restTemplate.getForEntity("http://localhost:8080/api/cylinders/empty/available",
+        		Cylinder[].class);
+        
+        List<Cylinder> cylinders = List.of(response.getBody());
+        model.addAttribute("cylinders", cylinders);
+        return "refill-cylinder-list";  // Render "cylinders.html"
+    }
+    
+    // Refill Cylinder
+    @PostMapping("/cylinders/refill/{id}")
+    public String refillCylinder(@PathVariable String id) {
+        String apiUrl = "http://localhost:8080/api/cylinders/refill/" + id;
+        restTemplate.postForEntity(apiUrl, null, Void.class);
+        return "redirect:/cylinders";  // Refresh list after refill
+    }
+    
+    
 
 }
 

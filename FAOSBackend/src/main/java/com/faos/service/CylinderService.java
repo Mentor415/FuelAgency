@@ -1,5 +1,8 @@
 package com.faos.service;
 
+
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.faos.exception.InvalidEntityException;
 import com.faos.model.Cylinder;
+import com.faos.model.CylinderStatus;
+import com.faos.model.CylinderType;
 import com.faos.model.Supplier;
 import com.faos.repository.CylinderRepository;
 import com.faos.repository.SupplierRepository;
@@ -36,17 +41,14 @@ public class CylinderService {
 
     // Add a new cylinder
     public Cylinder addCylinder(Cylinder cylinder, String suppId) throws InvalidEntityException {
-        if (cylinder.getType() == null) {
-            throw new InvalidEntityException("Cylinder type cannot be null");
-        }
-        if (cylinder.getStatus() == null) {
-            throw new InvalidEntityException("Cylinder status cannot be null");
-        }
+        
         if (cylinder.getWeight() == null || cylinder.getWeight() <= 0) {
             throw new InvalidEntityException("Cylinder weight must be a positive number");
         }
         // Save and return cylinder
         try {
+        	cylinder.setStatus(CylinderStatus.AVAILABLE);
+        	cylinder.setType(CylinderType.EMPTY);
         	Optional<Supplier> suppOptional = supplierRepository.findById(suppId);
         	if (suppOptional.isPresent()) {
                 cylinder.setSupplier(suppOptional.get());
@@ -164,5 +166,28 @@ public class CylinderService {
     // Method to update cylinder status back to 'Available'
     public void updateCylinder(long bookingId) {
         cylinderRepository.updateCylinder(bookingId);
+    }
+    
+    @Transactional
+    public Cylinder refillCylinder(String id) throws InvalidEntityException {
+        Cylinder cylinder = cylinderRepository.findById(id)
+            .orElseThrow(() -> new InvalidEntityException("Cylinder not found"));
+
+        // Condition: Only refill if EMPTY & AVAILABLE
+        if (cylinder.getType() == CylinderType.EMPTY && cylinder.getStatus() == CylinderStatus.AVAILABLE) {
+            cylinder.setType(CylinderType.FULL);
+            cylinder.setRefillDate(LocalDateTime.now());  // Update refill date
+            return cylinderRepository.save(cylinder);
+        } else {
+            throw new InvalidEntityException("Cylinder is not eligible for refill.");
+        }
+    }
+    
+    public List<Cylinder> getAllEmptyAvailableCylinders() throws InvalidEntityException{
+    	try {
+            return cylinderRepository.findAllEmptyAvailableCylinders();
+        } catch (Exception e) {
+            throw new InvalidEntityException("Error retrieving cylinders");
+        }
     }
 }

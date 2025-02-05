@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Empty & Available Cylinders</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: div}"></div>
+
+    <!-- Main Content -->
+    <div class="container mt-5" style="margin-left: 270px; width: 80%;">
+        <h2 class="mb-4">Empty & Available Cylinders</h2>
+        
+        <table class="table table-bordered bg-white">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Weight (kg)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cylinder : ${cylinders}">
+                    <td th:text="${cylinder.id}"></td>
+                    <td th:text="${cylinder.type}"></td>
+                    <td th:text="${cylinder.status}"></td>
+                    <td th:text="${cylinder.weight}"></td>
+                    <td>
+                        <!-- Refill Button -->
+                        <form th:action="@{/cylinders/refill/{id}(id=${cylinder.id})}" method="post">
+                            <button class="btn btn-danger">Refill</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

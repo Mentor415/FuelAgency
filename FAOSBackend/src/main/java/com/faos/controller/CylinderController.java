@@ -120,5 +120,27 @@ public class CylinderController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to fetch supplier", e);
         }
     }
+    
+    @PostMapping("/refill/{id}")
+    public ResponseEntity<?> refillCylinder(@PathVariable String id) {
+        try {
+            Cylinder updatedCylinder = cylinderService.refillCylinder(id);
+            return ResponseEntity.ok(updatedCylinder);
+        } catch (InvalidEntityException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
+    @GetMapping("/empty/available")
+    public ResponseEntity<List<Cylinder>> emptyAndAvailableCylinders() {
+    	logger.info("Fetching empty and available cylinders");
+        try {
+            return ResponseEntity.ok(cylinderService.getAllEmptyAvailableCylinders());
+        } catch (Exception e) {
+            logger.error("Failed to fetch cylinders: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to fetch cylinders", e);
+        }
+    }
+
 
 }

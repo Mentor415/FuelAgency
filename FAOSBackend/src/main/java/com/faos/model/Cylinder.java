@@ -103,6 +103,10 @@ public class Cylinder {
     public LocalDateTime getRefillDate() {
         return refillDate;
     }
+    
+    public void setRefillDate(LocalDateTime date) {
+        this.refillDate = date;
+    }
 
     // Setter methods (No setters for createdDate and refillDate)
     public void setType(CylinderType type) {
