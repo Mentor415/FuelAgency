@@ -87,7 +87,7 @@ public class Controllers {
                 model.addAttribute("bookingPageView", customer);
                 model.addAttribute("customer", new BookingPageView());
                 model.addAttribute("errors", "Bad credentials. Please try again.");
-                return "blogin";
+                return "customerDashboard";
             }
 
 
@@ -97,7 +97,7 @@ public class Controllers {
             model.addAttribute("customer", new BookingPageView());
             model.addAttribute("errors", "Bad credentials. Please try again.");
             model.addAttribute("error", "Bad credentials. Please try again.");
-            return "blogin";
+            return "customerDashboard";
         }
     }
 
@@ -141,7 +141,7 @@ public class Controllers {
             // Fetch available cylinder ID
             String cylinderId = getRestTemplate().getForEntity(
                     "http://localhost:8080/getCylinderId?type=" + booking.getConnType(), String.class).getBody();
-
+            System.out.println(cylinderId);
             if (cylinderId == null) {
                 model.addAttribute("sorry", "Sorry, Cylinder not available");
                 return "booking";

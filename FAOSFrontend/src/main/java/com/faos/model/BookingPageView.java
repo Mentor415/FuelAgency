@@ -20,7 +20,7 @@ public class BookingPageView {
     private LocalDate deliveryDate=LocalDate.now();
     private String paymentOption;
     private long price;
-    private String cylinderid;
+    private String id;
     
     private Long surcharge;
 
@@ -34,11 +34,11 @@ public class BookingPageView {
 	}
 
 	public String getCylinderid() {
-        return cylinderid;
+        return id;
     }
 
     public void setCylinderid(String cylinderid) {
-        this.cylinderid = cylinderid;
+        this.id = cylinderid;
     }
 
     // Getters and Setters for all the fields

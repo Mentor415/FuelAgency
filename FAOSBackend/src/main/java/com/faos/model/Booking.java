@@ -1,5 +1,6 @@
 package com.faos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 @Entity
@@ -17,16 +18,19 @@ public class Booking {
 	private LocalDate bookingDate;
 
 	// Many-to-One relationship with Cylinder
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "id", referencedColumnName = "id")
 	private Cylinder cylinder;
 
 	// One-to-One relationship with Bill
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "bill_id", referencedColumnName = "billId")
 	private Bill bill;
 
 	// Many-to-One relationship with Customer
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "consumerId", referencedColumnName = "consumerId")
 	private Customer customer;

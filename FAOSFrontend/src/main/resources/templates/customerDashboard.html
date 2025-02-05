@@ -20,6 +20,48 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
+
+
+    <style>
+      .password-section.container {
+  display: flex;
+  justify-content: space-between; /* Distribute buttons with space in between */
+  align-items: center;
+}
+
+.button-cylinder {
+  background-color: #4CAF50; /* Green color for 'Book Cylinder' button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px; /* Cylinder-like shape */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button-cylinder:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+}
+
+
+.button-primary {
+  background-color: #008CBA; /* Blue color for 'Change Password' button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button-primary:hover {
+  background-color: #007B9E;
+}
+.bookings{
+ color:white;
+      }
+    </style>
   </head>
   <body>
     <header class="header">
@@ -39,9 +81,10 @@
           >
         </li>
         <li class="nav-item">
-          <a href="/BookingLogin" class="nav-link"
-            ><i class="bi bi-calendar-check"></i> My Bookings</a
-          >
+          <form th:action="@{/submit-booking}" th:object="${customer}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{consumerId}" />
+            <a th:href="@{/history?consumerId={consumerId}(consumerId=${customer.consumerId})}" class="bookings" >My Bookings  </a>
+          </form>
         </li>
         <li class="nav-item">
           <a href="/logout" class="nav-link"
@@ -110,11 +153,29 @@
             </div>
           </div>
 
+          <form>
+
+          </form>
           <div class="password-section container">
             <button class="button-primary" id="changePasswordButton">
               Change Password
             </button>
-            <div id="passwordFields" class="form-container hidden">
+
+            <form th:action="@{/booking}" th:object="${customer}" method="POST" enctype="multipart/form-data">
+              <input type="hidden" th:field="*{consumerId}" />
+              <input type="hidden" th:field="*{consumerName}" />
+              <textarea type="hidden" th:field="*{address}" rows="3" style="display: none;"></textarea>
+              <input type="hidden" th:field="*{contactNo}" />
+              <input type="hidden" th:field="*{email}" />
+
+              <div class="button-container">
+                <button type="submit" class="button-cylinder">Book Cylinder</button>
+              </div>
+            </form>
+          </div>
+
+
+          <div id="passwordFields" class="form-container hidden">
               <form
                 th:action="@{updatepassword}"
                 method="post"

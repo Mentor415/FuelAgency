@@ -44,6 +44,7 @@ public class CustomerBookingController {
     public ResponseEntity<Customer> customerLogin(@RequestBody Customer customer) {
         try {
             Optional<Customer> existingCustomer = customerService.getCustomerByIds(customer.getConsumerId());
+            System.out.println(customer.getConsumerId());
             if (existingCustomer.isPresent()) {
                 return new ResponseEntity<>(existingCustomer.get(), HttpStatus.OK);
             }
@@ -173,6 +174,7 @@ public class CustomerBookingController {
     public ResponseEntity<String> getCylinderId(@RequestParam String type) {
         try {
             String cylinderId = cylinderService.getCylinderId("Available");
+            System.out.println(cylinderId);
             if (cylinderId == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }

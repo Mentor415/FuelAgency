@@ -163,6 +163,6 @@ public class CylinderService {
 
     // Method to update cylinder status back to 'Available'
     public void updateCylinder(long bookingId) {
-        cylinderRepository.updateCylinder(bookingId);
+        cylinderRepository.updateCylinderByBookingId(bookingId);
     }
 }

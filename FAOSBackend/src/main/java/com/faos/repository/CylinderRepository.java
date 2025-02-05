@@ -15,19 +15,19 @@ import com.faos.model.Supplier;
 
 public interface CylinderRepository extends JpaRepository<Cylinder, String> {
 
-	// Cylinder-related queries
+    // Cylinder-related queries
     List<Cylinder> findByStatus(String status);
     Optional<Cylinder> findByIdAndStatus(String id, String status);
     List<Cylinder> findByType(String type);
     List<Cylinder> findByCreatedDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
     @Query("SELECT COUNT(c) FROM Cylinder c WHERE c.status = :status")
-    long countByStatus(String status);
+    long countByStatus(@Param("status") String status);
 
     @Modifying
     @Transactional
     @Query("UPDATE Cylinder c SET c.status = :status WHERE c.id = :id")
-    void updateCylinderStatus(String id, String status);
+    void updateCylinderStatusById(@Param("id") String id, @Param("status") String status);
 
     List<Cylinder> findByRefillDateAfter(LocalDateTime date);
     List<Cylinder> findByTypeAndStatus(String type, String status);
@@ -36,27 +36,25 @@ public interface CylinderRepository extends JpaRepository<Cylinder, String> {
 
     // Supplier-related queries
     @Query("SELECT c FROM Cylinder c WHERE c.supplier.supplierID = :supplierID")
-    List<Cylinder> findBySupplierId(String supplierID);
+    List<Cylinder> findBySupplierId(@Param("supplierID") String supplierID);
 
     List<Cylinder> findBySupplier(Supplier supplier);
-	
-	
-    @Query(value = "SELECT cylinderid FROM cylinders WHERE   status = 'Available' LIMIT 1", nativeQuery = true)
-    Optional<String> findByConType(String type);
+
+    @Query(value = "SELECT id FROM cylinder WHERE status = 'AVAILABLE'  LIMIT 1", nativeQuery = true)
+    Optional<String> findByConType(@Param("type") String type);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE cylinder SET status = 'delivered' , type='empty' WHERE cylinderid = :cylinderid", nativeQuery = true)
-    void updateCylinderStatus(String cylinderid);
+    @Query(value = "UPDATE cylinder SET status = 'DELIVERED', cylinder_type='EMPTY' WHERE id = :cylinderId", nativeQuery = true)
+    void updateCylinderStatus(@Param("cylinderId") String cylinderId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE cylinder SET bookingId = :bookingId WHERE cylinderid = :cylinderid", nativeQuery = true)
-    int updateCylinderBookingId(@Param("cylinderid") String cylinderid, @Param("bookingId") Long bookingId);
+    @Query(value = "UPDATE cylinder SET bookingId = :bookingId WHERE id = :cylinderId", nativeQuery = true)
+    int updateCylinderBookingId(@Param("cylinderId") String cylinderId, @Param("bookingId") Long bookingId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE cylinder SET status = 'Available', bookingId = null, type='full' WHERE bookingId = :bookingIds", nativeQuery = true)
-    void updateCylinder(long bookingIds);
-
+    @Query(value = "UPDATE cylinder SET status = 'Available', bookingId = null, type='FULL' WHERE bookingId = :bookingId", nativeQuery = true)
+    void updateCylinderByBookingId(@Param("bookingId") long bookingId);
 }
