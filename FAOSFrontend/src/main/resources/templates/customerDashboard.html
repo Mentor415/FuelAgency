@@ -57,9 +57,11 @@
 
 .button-primary:hover {
   background-color: #007B9E;
+
 }
 .bookings{
  color:white;
+ text-decoration: none;
       }
     </style>
   </head>
@@ -83,7 +85,7 @@
         <li class="nav-item">
           <form th:action="@{/submit-booking}" th:object="${customer}" method="POST" enctype="multipart/form-data">
             <input type="hidden" th:field="*{consumerId}" />
-            <a th:href="@{/history?consumerId={consumerId}(consumerId=${customer.consumerId})}" class="bookings" >My Bookings  </a>
+            <a th:href="@{/history?consumerId={consumerId}(consumerId=${customer.consumerId})}" class="bookings" ><i class="bi bi-calendar-check"></i> My Bookings  </a>
           </form>
         </li>
         <li class="nav-item">

@@ -2,7 +2,6 @@ package com.faos.service;
 
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -165,7 +164,7 @@ public class CylinderService {
 
     // Method to update cylinder status back to 'Available'
     public void updateCylinder(long bookingId) {
-        cylinderRepository.updateCylinderByBookingId(bookingId);
+        cylinderRepository.updateCylinder(bookingId);
     }
     
     @Transactional

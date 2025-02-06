@@ -39,26 +39,6 @@ public interface CylinderRepository extends JpaRepository<Cylinder, String> {
     List<Cylinder> findBySupplierId(@Param("supplierID") String supplierID);
 
     List<Cylinder> findBySupplier(Supplier supplier);
-<<<<<<< HEAD
-
-    @Query(value = "SELECT id FROM cylinder WHERE status = 'AVAILABLE'  LIMIT 1", nativeQuery = true)
-    Optional<String> findByConType(@Param("type") String type);
-
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE cylinder SET status = 'DELIVERED', cylinder_type='EMPTY' WHERE id = :cylinderId", nativeQuery = true)
-    void updateCylinderStatus(@Param("cylinderId") String cylinderId);
-
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE cylinder SET bookingId = :bookingId WHERE id = :cylinderId", nativeQuery = true)
-    int updateCylinderBookingId(@Param("cylinderId") String cylinderId, @Param("bookingId") Long bookingId);
-
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE cylinder SET status = 'Available', bookingId = null, type='FULL' WHERE bookingId = :bookingId", nativeQuery = true)
-    void updateCylinderByBookingId(@Param("bookingId") long bookingId);
-=======
 	
 	
     @Query(value = "SELECT cylinderid FROM cylinder WHERE   status = 'Available' LIMIT 1", nativeQuery = true)
@@ -82,5 +62,4 @@ public interface CylinderRepository extends JpaRepository<Cylinder, String> {
     @Query(value = "SELECT * FROM CYLINDER WHERE CYLINDER_TYPE='EMPTY' AND STATUS='AVAILABLE'", nativeQuery = true)
     List<Cylinder> findAllEmptyAvailableCylinders();
 
->>>>>>> 7d776ad592e2f712ca03fd475bca022d61629319
 }
