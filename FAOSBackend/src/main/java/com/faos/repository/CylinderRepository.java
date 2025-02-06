@@ -39,26 +39,38 @@ public interface CylinderRepository extends JpaRepository<Cylinder, String> {
     List<Cylinder> findBySupplierId(@Param("supplierID") String supplierID);
 
     List<Cylinder> findBySupplier(Supplier supplier);
-	
-	
-    @Query(value = "SELECT cylinderid FROM cylinder WHERE   status = 'Available' LIMIT 1", nativeQuery = true)
-    Optional<String> findByConType(String type);
+
+
+    @Query(value = "SELECT id FROM cylinder WHERE status = 'AVAILABLE'  LIMIT 1", nativeQuery = true)
+    Optional<String> findByConType(@Param("type") String type);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE cylinder SET status = 'delivered' , type='empty' WHERE cylinderid = :cylinderid", nativeQuery = true)
-    void updateCylinderStatus(String cylinderid);
+    @Query(value = "UPDATE cylinder SET status = 'DELIVERED', cylinder_type='EMPTY' WHERE id = :cylinderId", nativeQuery = true)
+    void updateCylinderStatus(@Param("cylinderId") String cylinderId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE cylinder SET bookingId = :bookingId WHERE cylinderid = :cylinderid", nativeQuery = true)
-    int updateCylinderBookingId(@Param("cylinderid") String cylinderid, @Param("bookingId") Long bookingId);
+    @Query(value = "UPDATE cylinder SET bookingId = :bookingId WHERE id = :cylinderId", nativeQuery = true)
+    int updateCylinderBookingId(@Param("cylinderId") String cylinderId, @Param("bookingId") Long bookingId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE cylinder SET status = 'Available', bookingId = null, type='full' WHERE bookingId = :bookingIds", nativeQuery = true)
+    @Query(value = "UPDATE cylinder SET status = 'AVAILABLE', bookingId = null, cylinder_type='FULL' WHERE bookingId = :bookingId", nativeQuery = true)
+    void updateCylinderByBookingId(@Param("bookingId") long bookingId);
+
+
+
+//    @Query(value = "SELECT id FROM cylinder WHERE   status = 'AVAILABLE' LIMIT 1", nativeQuery = true)
+//    Optional<String> findByConType(String type);
+//
+//
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE cylinder SET status = 'AVAILABLE', bookingId = null, cylinder_type='FULL' WHERE bookingId = :bookingIds", nativeQuery = true)
     void updateCylinder(long bookingIds);
-    
+
     @Query(value = "SELECT * FROM CYLINDER WHERE CYLINDER_TYPE='EMPTY' AND STATUS='AVAILABLE'", nativeQuery = true)
     List<Cylinder> findAllEmptyAvailableCylinders();
 
