@@ -1,5 +1,7 @@
 package com.faos.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.faos.model.Login;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -79,9 +83,12 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException  {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        response.sendRedirect("/");  // Redirect to login after logout
     }
 
     protected boolean isAuthenticated(HttpSession session) {

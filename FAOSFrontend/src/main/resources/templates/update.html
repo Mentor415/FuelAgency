@@ -33,20 +33,7 @@
     </style>
 </head>
 <body>
-<header class="header" style="display: flex; justify-content: center;">
-    <a href="/home" class="nav-logo">
-        <i class="fas fa-gas-pump me-2"></i>
-        <!-- Fuel pump icon -->
-        Bharat Gas
-      </a>
-    
-      
-      <ul class="nav-list" id="nav-list" style="display: block;">
-    <nav class="nav">
-        <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-        <li class="nav-item"><a href="/customers" class="nav-link">Display Customers</a></li>
-    </nav>
-</header>
+    <div th:replace="fragments/header :: header"></div>
 
 <div class="container">
     <div class="card">

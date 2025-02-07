@@ -23,6 +23,10 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class Controllers {
     private long gst=0;
@@ -31,9 +35,20 @@ public class Controllers {
     private long surcharge=0L;
     
     @GetMapping("/")
-    public String home() {
+    public String home(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            // Retrieve the "CUSTOMER" attribute from the session
+            String userType = (String) session.getAttribute("userType");
+            
+            if ("CUSTOMER".equals(userType)) {
+                session.invalidate(); // Invalidate session
+                return "redirect:/"; // Redirect to home or another page
+            }
+        }
         return "index";
     }
+    
     @GetMapping("/BookingLogin")
     public String login(Model model) {
         model.addAttribute("customer", new BookingPageView());

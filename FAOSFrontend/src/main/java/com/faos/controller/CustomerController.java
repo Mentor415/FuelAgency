@@ -32,14 +32,14 @@ public class CustomerController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @GetMapping("/customerIndex")
-    public String index() {
-        return "index";
-    }
+    // @GetMapping("/customerIndex")
+    // public String index() {
+    //     return "index";
+    // }
 
     @GetMapping("/home")
     public String home() {
-        return "index";
+        return "redirect:/";
     }
 
     @GetMapping("/register")
