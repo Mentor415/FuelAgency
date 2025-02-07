@@ -48,14 +48,14 @@ public class Cylinder {
     private Double weight;  // Double for numeric values
 
     // Many-to-one relationship with Supplier (Mapping foreign key to supplier_id)
-    @JsonIgnore
+    
     @ManyToOne
     @JoinColumn(name = "supplierID", nullable = false)  // Foreign key column in DB
     @JsonIgnoreProperties("cylinderList")
     private Supplier supplier;  // Supplier associated with the cylinder
 
 
-    @JsonIgnore
+    
     @JsonIgnoreProperties
     @OneToOne
     @JoinColumn(name = "bookingId", referencedColumnName = "bookingId", nullable = true)

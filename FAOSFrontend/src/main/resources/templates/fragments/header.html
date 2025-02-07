@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/components/sucesssError.css" />
     <link rel="stylesheet" href="/css/login.css" />
     <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/contacts.css" />
 </head>
 <body>
     <header class="header index-header">
@@ -19,7 +20,8 @@
           </a>
           <ul class="nav-list mt-2" id="nav-list">
             <li class="nav-item"><a href="/home" class="nav-link">Home</a></li>
-      
+            <li class="nav-item"><a href="/about" class="nav-link">About Us</a></li>
+            <li class="nav-item"><a href="/contact" class="nav-link">Contact Us</a></li>
             <div class="nav-admin" th:if="${session.userType == 'ADMIN'}">
               <!-- <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle">Customer</a>
@@ -30,6 +32,7 @@
               </li> -->
               <li class="nav-item"><a href="/cylinder/index" class="nav-link">Cylinder Management</a></li>
               <li class="nav-item"><a href="/supplier/index" class="nav-link">Supplier Management</a></li>
+  
               <li class="nav-item"><a href="/reports" class="nav-link">Report Management</a></li>
             </div>
       

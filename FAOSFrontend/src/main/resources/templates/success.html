@@ -2,58 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Success</title>
-                <!-- Bootstrap CSS -->
-                <link
-                rel="stylesheet"
-                href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-              />
-              <!-- Font Awesome for Icons -->
-              <link
-                rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-              />
-              <link rel="stylesheet" href="/css/components/header.css" />
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+        <!-- Font Awesome for Icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+        <link rel="stylesheet" href="/css/components/header.css" />
         <style>
             body {
                 font-family: 'Roboto', Arial, sans-serif;
                 margin: 0;
                 padding: 0;
-                background-color: #DFE4D6;
+                background-color: #F4F6F6;
             }
             .container {
                 max-width: 600px;
-                margin: 2rem auto;
+                margin: 3rem auto;
                 padding: 2rem;
                 background: white;
-                border-radius: 10px;
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+                border-radius: 12px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
                 text-align: center;
             }
             h2 {
-                color: #161D6F;
+                color: #0A3D62;
+                margin-bottom: 1.5rem;
             }
             .actions a {
                 text-decoration: none;
                 color: white;
-                background-color: #161D6F;
-                padding: 1rem 2rem;
-                border-radius: 5px;
+                padding: 0.75rem 1.5rem;
+                border-radius: 8px;
                 font-weight: bold;
-                margin: 0 10px;
+                margin: 10px;
                 display: inline-block;
+                transition: background 0.3s ease, transform 0.2s;
+            }
+            .btn-green {
+                background: linear-gradient(to right, #38A169, #2F855A);
+            }
+            .btn-blue {
+                background: linear-gradient(to right, #3182CE, #2B6CB0);
             }
             .actions a:hover {
-                background-color: #161D6F;
+                transform: translateY(-3px);
+                opacity: 0.9;
             }
         </style>
     </head>
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/cylinder-navbar :: nav}"></div>
     <body>
         <div class="container">
             <h2 th:text="${message}">Operation Successful!</h2>
             <div class="actions">
-                <a href="/suppliers">View Suppliers</a>
-                <a href="/suppliers/add">Add Another Supplier</a>
+                <a href="/suppliers" class="btn-green">View Suppliers</a>
+                <a href="/suppliers/add" class="btn-blue">Add Another Supplier</a>
             </div>
         </div>
     </body>

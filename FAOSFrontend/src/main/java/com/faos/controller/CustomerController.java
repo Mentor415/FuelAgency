@@ -42,6 +42,19 @@ public class CustomerController {
         return "redirect:/";
     }
 
+    @GetMapping("/about")
+    public String about()
+    {
+        return "aboutUs";
+    }
+    @GetMapping("/contact")
+    public String contact()
+    {
+        return "contactUs";
+    }
+
+  
+
     @GetMapping("/register")
     public String showRegistrationForm(Model model, HttpSession session) {
         String userType  = (String) session.getAttribute("userType");
