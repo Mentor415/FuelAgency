@@ -85,11 +85,17 @@
         .btn-custom:hover {
             opacity: 0.9;
         }
+		.button-group {
+		    margin-top: 2rem;
+			display: flex;
+			justify-content: space-between;
+		        }
     </style>
     <link rel="stylesheet" href="/css/components/header.css" />
 </head>
 <body>
     <div th:replace="~{fragments/cylinder-navbar :: nav}"></div>
+	
     <div class="container">
         <div class="filter-section">
             <input type="text" id="filter-id" name="filter-id" placeholder="Filter by ID">
@@ -102,10 +108,12 @@
         </div>
 
         <!-- Download PDF Button -->
-        <div class="text-center">
-            <a href="http://localhost:8080/downloadActiveSuppliersPdf" class="btn-custom btn-download">Download PDF</a>
-        </div>
-
+		<div class="button-group text-center mt-4">
+			            <a th:href="@{/}" class="btn-custom btn-home">Back to Home</a>
+			            <a th:href="@{/deactivateForm}" class="btn-custom btn-deactivate">Deactivate</a>
+			            <a th:href="@{/addsupplier}" class="btn-custom btn-add">Add New Supplier</a>
+						<a href="http://localhost:8080/downloadActiveSuppliersPdf" class="btn-custom btn-download">Download PDF</a>
+			        </div>
         <table>
             <thead>
                 <tr>
@@ -133,11 +141,37 @@
             </tbody>
         </table>
 
-        <div class="button-group text-center mt-4">
-            <a th:href="@{/}" class="btn-custom btn-home">Back to Home</a>
-            <a th:href="@{/deactivateForm}" class="btn-custom btn-deactivate">Deactivate</a>
-            <a th:href="@{/addsupplier}" class="btn-custom btn-add">Add New Supplier</a>
-        </div>
+        
     </div>
+	<script>
+	        document.addEventListener("DOMContentLoaded", function() {
+	            const idFilter = document.getElementById("filter-id");
+	            const nameFilter = document.getElementById("filter-name");
+	            const statusFilter = document.getElementById("filter-status");
+	            const rows = document.querySelectorAll(".supplier-row");
+
+	            function filterTable() {
+	                rows.forEach(row => {
+	                    const id = row.querySelector(".supplier-id").textContent.toLowerCase();
+	                    const name = row.querySelector(".supplier-name").textContent.toLowerCase();
+	                    const status = row.querySelector(".supplier-status").textContent.toLowerCase();
+
+	                    const idMatch = id.includes(idFilter.value.toLowerCase());
+	                    const nameMatch = name.includes(nameFilter.value.toLowerCase());
+	                    const statusMatch =
+	                        statusFilter.value === "" || 
+	                        (statusFilter.value === "true" && status === "active") ||
+	                        (statusFilter.value === "false" && status === "inactive");
+
+	                    row.style.display = idMatch && nameMatch && statusMatch ? "" : "none";
+	                });
+	            }
+
+	            idFilter.addEventListener("input", filterTable);
+	            nameFilter.addEventListener("input", filterTable);
+	            statusFilter.addEventListener("change", filterTable);
+	        });
+
+	    </script>
 </body>
 </html>
