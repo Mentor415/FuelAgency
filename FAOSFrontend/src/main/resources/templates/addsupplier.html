@@ -63,7 +63,7 @@
         background-color: #dfe4d6;
       }
       button {
-        background-color: #295f98;
+        background-color: #28a745;
         color: white;
         padding: 0.8rem 1.5rem;
         border: none;
@@ -74,7 +74,7 @@
         align-self: center;
       }
       button:hover {
-        background-color: #161d6f;
+        background-color: #218838;
       }
       .button-group {
         display: flex;
@@ -104,15 +104,14 @@
     </style>
   </head>
   <body>
-    <div th:replace="fragments/header :: header"></div>
-    <div class="container">
-      <h2>Add Supplier</h2>
+    <div th:replace="~{fragments/cylinder-navbar :: nav}"></div>
+    <div class="container ">
+      <h2 class="fw-bold text-primary">ADD SUPPLIER</h2>
 
-      <!-- Success Message -->
-      <div class="message" th:if="${message}" th:text="${message}"></div>
+      
 
       <!--Genereal error message-->
-      <div th:if="${errorMessage}" class="alert alert-danger">
+      <div th:if="${errorMessage}" class="alert">
         <p th:text="${errorMessage}"></p>
       </div>
 
