@@ -24,7 +24,6 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -48,7 +47,7 @@ public class Controllers {
         }
         return "index";
     }
-    
+ 
     @GetMapping("/BookingLogin")
     public String login(Model model) {
         model.addAttribute("customer", new BookingPageView());

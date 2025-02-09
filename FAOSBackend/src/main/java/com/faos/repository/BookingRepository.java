@@ -14,13 +14,11 @@ import com.faos.model.Booking;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-
     @Query(value = "SELECT * FROM bookings ORDER BY bookingId DESC LIMIT 1", nativeQuery = true)
     Optional<Booking> getLastBooking();
 
     @Query(value = "SELECT * FROM Bookings WHERE consumerId = :consumerId ORDER BY bookingDate DESC LIMIT 1", nativeQuery = true)
     Optional<Booking> findLastBookingByConsumerId(@Param("consumerId") String consumerId);
-
 
     @Query(value = "SELECT * FROM Bookings WHERE consumerId = :consumerId", nativeQuery = true)
     List<Booking> findByConsumerId(@Param("consumerId") String consumerId);
@@ -30,7 +28,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     @Query(value = "SELECT COUNT(*) FROM Bookings WHERE consumerId = :consumerId GROUP BY bookingDate ORDER BY bookingDate DESC LIMIT 1", nativeQuery = true)
     Integer findByConsumerIdsix(String consumerId);
-    
 
     @Query("SELECT COUNT(b) FROM Booking b WHERE b.customer.consumerId = :consumerId AND b.bookingDate BETWEEN :startDate AND :endDate")
     long countByConsumerIdAndBookingDateBetween(@Param("consumerId") String consumerId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
@@ -44,5 +41,10 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query(value = "UPDATE cylinders SET status = 'Available', bookingId = null WHERE bookingId = :bookingIds", nativeQuery = true)
     void updateCylinder(long bookingIds);
 
-
+    @Query("SELECT b.customer, COUNT(b.bookingId) "
+            + "FROM Booking b "
+            + "WHERE b.bookingDate BETWEEN :startDate AND :endDate "
+            + "GROUP BY b.customer")
+    List<Object[]> findBookingCountsByCustomer(@Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
 }
