@@ -35,10 +35,10 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query(value = "SELECT COUNT(*) FROM Bookings WHERE consumerId = :consumerId ", nativeQuery = true)
     Optional<Integer> findBookingByConsumerId(String consumerId);
 
-    @Query(value = "SELECT b.bookingId FROM Bookings b WHERE b.consumerId = :consumerId ORDER BY b.bookingDate DESC LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT b.bookingId FROM Bookings b WHERE b.consumerId = :consumerId ORDER BY b.bookingId DESC LIMIT 1", nativeQuery = true)
     Optional<Long> findByConsumerid(@Param("consumerId") String consumerId);
 
-    @Query(value = "UPDATE cylinders SET status = 'Available', bookingId = null WHERE bookingId = :bookingIds", nativeQuery = true)
+    @Query(value = "UPDATE cylinder SET status = 'AVAILABLE', bookingId = null WHERE bookingId = :bookingIds", nativeQuery = true)
     void updateCylinder(long bookingIds);
 
     @Query("SELECT b.customer, COUNT(b.bookingId) "

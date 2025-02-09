@@ -19,7 +19,7 @@ public class Booking {
 
 	// Many-to-One relationship with Cylinder
 	@JsonIgnore
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "id", referencedColumnName = "id")
 	private Cylinder cylinder;
 
