@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  />
+  <!-- Font Awesome for Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
     <link rel="stylesheet" href="/css/components/header.css" />
     <link rel="stylesheet" href="/css/components/forms.css" />
     <link rel="stylesheet" href="/css/components/buttons.css" />
@@ -15,34 +27,65 @@
 <body>
     <header class="header index-header">
         <nav class="nav">
-          <a href="/home" class="nav-logo " >
-            <i class="fas fa-gas-pump "></i> Bharat Gas
+          <a href="/home" class="nav-logo">
+            <i class="fas fa-gas-pump"></i> Bharat Gas
           </a>
-          <ul class="nav-list mt-2" id="nav-list">
-            <li class="nav-item"><a href="/home" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="/about" class="nav-link">About Us</a></li>
-            <li class="nav-item"><a href="/contact" class="nav-link">Contact Us</a></li>
-            <div class="nav-admin" th:if="${session.userType == 'ADMIN'}">
-              <!-- <li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle">Customer</a>
-                <ul class="dropdown-content">
-                  <li><a href="/register" class="dropdown-item">Customer Registration</a></li>
-                  <li><a href="/customers" class="dropdown-item">Display Customers</a></li>
-                </ul>
-              </li> -->
-              <li class="nav-item"><a href="/cylinder/index" class="nav-link">Cylinder Management</a></li>
-              <li class="nav-item"><a href="/supplier/index" class="nav-link">Supplier Management</a></li>
-  
-              <li class="nav-item"><a href="/report" class="nav-link">Report Management</a></li>
-            </div>
-      
+          
+          <!-- Hamburger Menu -->
+          <button class="hamburger" id="hamburger-menu">&#9776;</button>
+
+          <ul class="nav-list mt-2 nav-list-hamburger" id="nav-list">
             <li class="nav-item">
-              <a th:if="${session.userType != null}" class="nav-link" href="/logout">LogOut</a>
+              <a href="/home" class="nav-link">
+                <i class="fas fa-home"></i> Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/about" class="nav-link">
+                <i class="fas fa-info-circle"></i> About Us
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/contact" class="nav-link">
+                <i class="fas fa-envelope"></i> Contact Us
+              </a>
+            </li>
+            <div class="nav-admin" th:if="${session.userType == 'ADMIN'}">
+              <li class="nav-item">
+                <a href="/cylinder/index" class="nav-link">
+                  <i class="fas fa-box"></i> Cylinder Management
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/supplier/index" class="nav-link">
+                  <i class="fas fa-truck"></i> Supplier Management
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/report" class="nav-link">
+                  <i class="fas fa-chart-line"></i> Report Management
+                </a>
+              </li>
+            </div>
+            <div class="nav-customer" th:if="${session.userType == 'CUSTOMER'}">
+              <li class="nav-item">
+                <a href="/customer/dashboard" class="nav-link">
+                  <i class="bi bi-house-fill"></i> Dashboard
+                </a>
+              </li>
+              <li class="nav-item">
+                <a th:href="@{/history(consumerId=${customer.consumerId})}" class="nav-link">
+                  <i class="bi bi-calendar-check"></i> My Bookings
+                </a>
+              </li>
+            </div>
+            <li class="nav-item">
+              <a th:if="${session.userType != null}" class="nav-link" href="/logout">
+                <i class="bi bi-box-arrow-right"></i> Log Out
+              </a>
             </li>
           </ul>
         </nav>
       </header>
-      
-  
 </body>
 </html>

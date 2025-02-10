@@ -39,17 +39,20 @@ public class CustomerController {
 
     @GetMapping("/home")
     public String home() {
+
         return "redirect:/";
     }
 
     @GetMapping("/about")
-    public String about()
+    public String about(Model model)
     {
+        model.addAttribute("customer", new Customer());
         return "aboutUs";
     }
     @GetMapping("/contact")
-    public String contact()
+    public String contact(Model model)
     {
+        model.addAttribute("customer", new Customer());
         return "contactUs";
     }
 

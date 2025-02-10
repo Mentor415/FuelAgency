@@ -35,11 +35,18 @@
   color: #ffdf5d;
 }
 
+.nav-link:focus{
+  color: white;
+}
+
 .nav-list{
   display: flex;
   
 }
 .nav-admin{
+  display: flex;
+}
+.nav-customer{
   display: flex;
 }
 /* Dropdown Styles */
@@ -118,13 +125,13 @@
 .nav-list-hamburger{
   display: flex;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 970px) {
   .nav-list-hamburger{
     display: none; /* Hide by default */
     flex-direction: column;
     background: linear-gradient(45deg, #007bff, #0056b3);
     position: absolute;
-    top: 48px;
+    top: 40px;
     right: 0;
     width: 200px;
     padding: 10px;
@@ -141,10 +148,15 @@
   }
   .nav-admin{
     display: flex;
+    flex-direction: column;
+  }
+  .nav-customer{
+    display: flex;
+    flex-direction: column;
   }
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 970px){
 
   .loginBtn{
     flex-direction: column;
