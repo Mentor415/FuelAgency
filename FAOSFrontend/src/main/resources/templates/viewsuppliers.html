@@ -92,10 +92,11 @@
 		        }
     </style>
     <link rel="stylesheet" href="/css/components/header.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
 </head>
 <body>
-    <div th:replace="~{fragments/cylinder-navbar :: nav}"></div>
-	
+    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/sidebar :: div}"></div>
     <div class="container">
         <div class="filter-section">
             <input type="text" id="filter-id" name="filter-id" placeholder="Filter by ID">

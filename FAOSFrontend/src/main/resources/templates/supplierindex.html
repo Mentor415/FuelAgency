@@ -121,10 +121,12 @@
             width: 100%;
         }
     </style>
+   
+    <link rel="stylesheet" href="/css/components/header.css" />
 </head>
 <body>
     <div class="overlay"></div>
-    <div th:replace="~{fragments/cylinder-navbar :: nav}"></div>
+    <div th:replace="fragments/header :: header"></div>
     <div class="container">
         <h3>Welcome to Supplier Module!</h3>
         <div class="actions">

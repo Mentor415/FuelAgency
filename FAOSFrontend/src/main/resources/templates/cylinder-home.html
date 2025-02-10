@@ -15,6 +15,7 @@
 	        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 	      />
 	      <link rel="stylesheet" href="/css/components/header.css" />
+	      <link rel="stylesheet" href="/css/sidebar.css" />
 		  <style>
 			
 			body {
@@ -35,16 +36,7 @@
 			    z-index: -1; /* Send it behind everything */
 			}
 			
-			.nav-link{
-				color:  #007bff;
-				margin-bottom: 5px;
-			}
-			.nav-item{
-				padding: 0;
-			}
-			.nav-link:hover{
-				color: cornflowerblue;
-			}
+	
 			footer {
 			            padding: 1rem 0;
 			            text-align: center;
@@ -59,7 +51,8 @@
 		  </style>
 </head>
 <body>
-	<div th:replace="~{fragments/cylinder-navbar :: nav}"></div>
+	<!-- header -->
+	<div th:replace="fragments/header :: header"></div>
     <!-- Sidebar -->
     <div th:replace="~{fragments/sidebar :: div}"></div>
 

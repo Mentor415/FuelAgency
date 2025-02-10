@@ -28,11 +28,12 @@
 				}
 			  </style>
 
+<link rel="stylesheet" href="/css/components/header.css" />
+<link rel="stylesheet" href="/css/sidebar.css" />
 </head>
 <body>
-	<div th:replace="~{fragments/cylinder-navbar :: nav}"></div>
-    <!-- Sidebar -->
-    <div th:replace="~{fragments/sidebar :: div}"></div>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="~{fragments/sidebar :: div}"></div>
 
 	<!-- Main Content -->
 	    <div class="container" style="margin-left: 270px; width: 70%;">

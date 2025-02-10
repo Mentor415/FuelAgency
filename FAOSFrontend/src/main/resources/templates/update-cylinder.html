@@ -14,25 +14,12 @@
 			        rel="stylesheet"
 			        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 			      />
-			      <link rel="stylesheet" href="/css/components/header.css" />
-				  <style>
-					.nav-link{
-						color:  #007bff;
-						margin-bottom: 5px;
-					}
-					.nav-item{
-						padding: 0;
-					}
-					.nav-link:hover{
-						color: cornflowerblue;
-					}
-				  </style>
-
-</head>
-<body>
-	<div th:replace="~{fragments/cylinder-navbar :: nav}"></div>
-    <!-- Sidebar -->
-    <div th:replace="~{fragments/sidebar :: div}"></div>
+				  <link rel="stylesheet" href="/css/components/header.css" />
+				  <link rel="stylesheet" href="/css/sidebar.css" />
+			  </head>
+			  <body>
+				  <div th:replace="fragments/header :: header"></div>
+				  <div th:replace="~{fragments/sidebar :: div}"></div>
 
     <!-- Main Content -->
     <div class="container" style="margin-left: 270px; width: 70%;">

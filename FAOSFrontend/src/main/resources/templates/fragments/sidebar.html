@@ -1,62 +1,68 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar" style="width: 270px; height: 100vh; position: fixed;">
-    <a href="/" class="d-flex align-items-center mb-3 me-md-auto link-dark text-decoration-none">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/sidebar.css" /
+  </head>
+  <body>
+    <div
+      class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar"
+      style="width: 270px; height: 100vh; position: fixed"
+    >
+      <a
+        href="/"
+        class="d-flex align-items-center mb-3 me-md-auto link-dark text-decoration-none"
+      >
         <span class="fs-4 fw-bold">Cylinder Management</span>
-    </a>
-    <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
-		
+      </a>
+      <hr />
+      <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <a th:href="@{/cylinders}" class="nav-link sidebar-btn">View Cylinders</a>
+          <a th:href="@{/cylinders}" class="sidebar-link sidebar-btn"
+            >View Cylinders</a
+          >
         </li>
         <li>
-            <a th:href="@{/add-cylinder}" class="nav-link sidebar-btn">Add New Cylinder</a>
+          <a th:href="@{/add-cylinder}" class="sidebar-link sidebar-btn"
+            >Add New Cylinder</a
+          >
         </li>
         <li>
-            <a th:href="@{/update-cylinder}" class="nav-link sidebar-btn">Update Cylinder</a>
+          <a th:href="@{/update-cylinder}" class="sidebar-link sidebar-btn"
+            >Update Cylinder</a
+          >
         </li>
         <li>
-            <a th:href="@{/refill-cylinder}" class="nav-link sidebar-btn">Refill Cylinder</a>
-        </li>
-        
-        <li>
-            <a th:href="@{/delete-cylinder}" class="nav-link sidebar-btn">Delete Cylinder</a>
+          <a th:href="@{/refill-cylinder}" class="sidebar-link sidebar-btn"
+            >Refill Cylinder</a
+          >
         </li>
         <li>
-            <a th:href="@{/suppliers}" class="nav-link sidebar-btn">All Suppliers</a>
+          <a th:href="@{/delete-cylinder}" class="sidebar-link sidebar-btn"
+            >Delete Cylinder</a
+          >
         </li>
-        
-    </ul>
-</div>
-
-<style>
-    .sidebar {
-        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    }
-    .sidebar-btn {
-        padding: 10px;
-        border-radius: 5px;
-        color: black;
-        transition: background 0.3s;
-    }
-    .sidebar-btn:hover {
-        background-color: #007bff;
-        color: white;
-    }
-    .active-btn {
-        background-color: #007bff !important;
-        color: white !important;
-    }
-</style>
+        <li>
+          <a th:href="@{/suppliers}" class="sidebar-link sidebar-btn"
+            >All Suppliers</a
+          >
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
 
 <script>
-    // Highlight active button when clicked
-    document.addEventListener("DOMContentLoaded", function () {
-        let buttons = document.querySelectorAll(".sidebar-btn");
-        buttons.forEach(button => {
-            button.addEventListener("click", function () {
-                buttons.forEach(btn => btn.classList.remove("active-btn"));
-                this.classList.add("active-btn");
-            });
-        });
+  // Highlight active button when clicked
+  document.addEventListener("DOMContentLoaded", function () {
+    let buttons = document.querySelectorAll(".sidebar-btn");
+    buttons.forEach((button) => {
+      button.addEventListener("click", function () {
+        buttons.forEach((btn) => btn.classList.remove("active-btn"));
+        this.classList.add("active-btn");
+      });
     });
+  });
 </script>
