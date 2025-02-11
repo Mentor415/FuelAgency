@@ -18,9 +18,16 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 import com.faos.model.BookingPageView;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -201,7 +208,6 @@ public class Controllers {
     @PostMapping("/downloadBill")
     public ResponseEntity<byte[]> downloadBill(@ModelAttribute BookingPageView bill) {
         try {
-            // Fetch customer details
             ResponseEntity<BookingPageView[]> response = getRestTemplate().getForEntity(
                     "http://localhost:8080/customer?consumerId=" + bill.getConsumerId(), BookingPageView[].class);
 
@@ -222,53 +228,81 @@ public class Controllers {
                     .map(body -> body[0])
                     .orElseThrow(() -> new Exception("No bill details found."));
 
-
             long gst = 10;
             long deliveryCharge = "Express".equalsIgnoreCase(billDetails.getDeliveryOption()) ? 100 : 50;
-            long basePrice = 1000;  // Base price before adding other charges
+            long basePrice = 1000;
             long surcharge = Optional.ofNullable(billDetails.getSurcharge()).orElse(0L);
             long totalPrice = basePrice + gst + deliveryCharge + surcharge;
-
 
             Document document = new Document();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             PdfWriter writer = PdfWriter.getInstance(document, outputStream);
             document.open();
 
+            // Font Definitions
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.BLUE);
+            Font headingFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD, BaseColor.BLACK);
+            Font labelFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+            Font valueFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK);
+            Font thankYouFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLDITALIC, BaseColor.BLUE);
+            Font redfont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLDITALIC, BaseColor.RED);
 
-            PdfContentByte canvas = writer.getDirectContentUnder();
-//            Font watermarkFont = new Font(Font.FontFamily.HELVETICA, 50, Font.BOLD, new BaseColor(200, 200, 200, 50));
-//            ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, new Phrase("Fuel Agency", watermarkFont), 297.5f, 600, 45);
-//
-//
-//            document.add(new Paragraph("Booking Confirmation Bill", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
-            document.add(new Paragraph("--------------------------------------------------"));
-            document.add(new Paragraph("Booking ID: " + billDetails.getBookingId()));
-            document.add(new Paragraph("Customer Name: " + customerDetails.getConsumerName()));
-            document.add(new Paragraph("Email: " + customerDetails.getEmail()));
-            document.add(new Paragraph("Phone Number: " + customerDetails.getContactNo()));
-            document.add(new Paragraph("Connection Type: " + customerDetails.getConnType()));
-            document.add(new Paragraph("Time Slot: " + billDetails.getTimeSlot()));
-            document.add(new Paragraph("Delivery Option: " + billDetails.getDeliveryOption()));
-            document.add(new Paragraph("Delivery Date: " + billDetails.getDeliveryDate()));
-            document.add(new Paragraph("Payment Option: " + billDetails.getPaymentOption()));
-            document.add(new Paragraph("--------------------------------------------------"));
+            // Header
+            Paragraph title = new Paragraph("Booking Confirmation Bill", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.setSpacingBefore(15);
+            title.setSpacingAfter(15);
+            document.add(title);
 
-            document.add(new Paragraph("Base Price: " + basePrice));
-            document.add(new Paragraph("GST: " + gst));
-            document.add(new Paragraph("Delivery Charge: " + deliveryCharge));
+            Paragraph deliveryDate = new Paragraph("Delivery Date: " + billDetails.getDeliveryDate(), headingFont);
+            deliveryDate.setAlignment(Element.ALIGN_CENTER);
+            deliveryDate.setSpacingBefore(5);
+            document.add(deliveryDate);
 
-            // ✅ Display surcharge if applicable
-//            if (surcharge > 0) {
-//                document.add(new Paragraph("Surcharge (20% extra): " + surcharge));
-//            }
+            // Booking Details
+            Paragraph bookingDetailsParagraph = new Paragraph("Booking Details", headingFont);
+            bookingDetailsParagraph.setAlignment(Element.ALIGN_LEFT);
+            bookingDetailsParagraph.setSpacingBefore(10);
+            document.add(bookingDetailsParagraph);
 
-            document.add(new Paragraph("Total Price: " + totalPrice));
-            document.add(new Paragraph("--------------------------------------------------"));
-            document.add(new Paragraph("Thank you for booking with us!"));
+            PdfPTable detailsTable = new PdfPTable(2);
+            detailsTable.setWidthPercentage(80);
+            detailsTable.setSpacingBefore(10);
+            detailsTable.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+            addTableRow(detailsTable, "Booking ID:", String.valueOf(billDetails.getBookingId()), labelFont, valueFont);
+            addTableRow(detailsTable, "Customer Name:", customerDetails.getConsumerName(), labelFont, valueFont);
+            addTableRow(detailsTable, "Email:", customerDetails.getEmail(), labelFont, valueFont);
+            addTableRow(detailsTable, "Phone Number:", String.valueOf(customerDetails.getContactNo()), labelFont, valueFont);
+            addTableRow(detailsTable, "Connection Type:", customerDetails.getConnType(), labelFont, valueFont);
+            addTableRow(detailsTable, "Time Slot:", billDetails.getTimeSlot(), labelFont, valueFont);
+            addTableRow(detailsTable, "Delivery Option:", billDetails.getDeliveryOption(), labelFont, valueFont);
+            addTableRow(detailsTable, "Payment Option:", billDetails.getPaymentOption(), labelFont, valueFont);
+            document.add(detailsTable);
+
+            // Price Details
+            document.add(new Paragraph("\n")); // Line break
+            PdfPTable billTable = new PdfPTable(2);
+            billTable.setWidthPercentage(50);
+            billTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+            addTableRow(billTable, "Base Price:", "₹ " + basePrice, labelFont, valueFont);
+            addTableRow(billTable, "GST:", "₹ " + gst, redfont, valueFont);
+            addTableRow(billTable, "Delivery Charge:", "₹ " + deliveryCharge, labelFont, valueFont);
+            if (surcharge > 0) {
+                addTableRow(billTable, "Surcharge (20% extra):", "₹ " + surcharge, labelFont, valueFont);
+            }
+            addTableRow(billTable, "Total Price:", "₹ " + totalPrice, redfont, valueFont);
+            document.add(billTable);
+
+            // Thank You
+            Paragraph thankYou = new Paragraph("Thank you for booking with us!", thankYouFont);
+            thankYou.setAlignment(Element.ALIGN_CENTER);
+            thankYou.setSpacingBefore(20);
+            document.add(thankYou);
+
             document.close();
 
-            // ✅ Prepare Response
             byte[] pdfBytes = outputStream.toByteArray();
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Disposition", "attachment; filename=bill.pdf");
@@ -276,6 +310,7 @@ public class Controllers {
             return ResponseEntity.ok()
                     .headers(headers)
                     .body(pdfBytes);
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -283,6 +318,18 @@ public class Controllers {
         }
     }
 
+    private void addTableRow(PdfPTable table, String label, String value, Font labelFont, Font valueFont) {
+        PdfPCell labelCell = new PdfPCell(new Phrase(label, labelFont));
+        labelCell.setBorder(Rectangle.NO_BORDER);
+        labelCell.setPadding(5);
+
+        PdfPCell valueCell = new PdfPCell(new Phrase(value, valueFont));
+        valueCell.setBorder(Rectangle.NO_BORDER);
+        valueCell.setPadding(5);
+
+        table.addCell(labelCell);
+        table.addCell(valueCell);
+    }
 
    
 
