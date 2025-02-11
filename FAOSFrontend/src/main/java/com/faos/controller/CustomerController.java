@@ -1,9 +1,13 @@
 package com.faos.controller;
 
+import java.io.Console;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -17,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.faos.model.Customer;
+
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
@@ -90,17 +95,24 @@ public class CustomerController {
             return "addSuccess";
         } catch (HttpClientErrorException.BadRequest e) {
             String responseBody = e.getResponseBodyAsString();
+            System.out.println("This is the error"+responseBody);
+
             try {
                 Map<String, String> errors = new ObjectMapper().readValue(responseBody, Map.class);
-
+                
                 // Handle email validation errors
                 if (errors.containsKey("email")) {
                     bindingResult.rejectValue("email", "error.email", errors.get("email"));
                 }
-
+                if(errors.containsKey("emailExist")){
+                    bindingResult.rejectValue("email", "error.email", errors.get("emailExist"));
+                }
                 // Handle contact validation errors
                 if (errors.containsKey("contactNo")) {
                     bindingResult.rejectValue("contactNo", "error.contactNo", errors.get("contactNo"));
+                }
+                if (errors.containsKey("contactExist")) {
+                    bindingResult.rejectValue("contactNo", "error.contactNo", errors.get("contactExist"));
                 }
             } catch (JsonProcessingException ex) {
                 model.addAttribute("errorMessage", "Registration failed: Invalid data");
@@ -217,8 +229,27 @@ public class CustomerController {
             // Return the addSuccess view
             return "addSuccess";
         } catch (HttpClientErrorException.BadRequest e) {
-            model.addAttribute("errorMessage", e.getResponseBodyAsString());
-            model.addAttribute("customer", customer);
+            String responseBody = e.getResponseBodyAsString();
+            try {
+                Map<String, String> errors = new ObjectMapper().readValue(responseBody, Map.class);
+                
+                // Handle email validation errors
+                if (errors.containsKey("email")) {
+                    bindingResult.rejectValue("email", "error.email", errors.get("email"));
+                }
+                if(errors.containsKey("emailExist")){
+                    bindingResult.rejectValue("email", "error.email", errors.get("emailExist"));
+                }
+                // Handle contact validation errors
+                if (errors.containsKey("contactNo")) {
+                    bindingResult.rejectValue("contactNo", "error.contactNo", errors.get("contactNo"));
+                }
+                if (errors.containsKey("contactExist")) {
+                    bindingResult.rejectValue("contactNo", "error.contactNo", errors.get("contactExist"));
+                }
+            } catch (JsonProcessingException ex) {
+                model.addAttribute("errorMessage", "Registration failed: Invalid data");
+            }
             return "update";
         }
     }

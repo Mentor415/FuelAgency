@@ -69,7 +69,8 @@
     <link rel="stylesheet" href="/css/components/header.css" />
   </head>
   <body>
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/header :: header}"></div>
+
     <!-- Success Message -->
     <div
       th:if="${successMessage}"

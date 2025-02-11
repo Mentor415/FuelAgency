@@ -106,7 +106,8 @@
     <link rel="stylesheet" href="/css/components/header.css" />
 </head>
 <body>
-    <div th:replace="fragments/header :: header"></div>
+  <div th:replace="~{fragments/header :: header}"></div>
+
     <div class="container ">
       <h2 class="fw-bold text-primary">ADD SUPPLIER</h2>
 
@@ -184,5 +185,6 @@
         <a href="/suppliers">View Suppliers</a>
       </div>
     </div>
+    <script src="/js/hamburgerMenu.js"></script>
   </body>
 </html>

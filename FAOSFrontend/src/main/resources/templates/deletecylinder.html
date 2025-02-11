@@ -33,7 +33,8 @@
 <link rel="stylesheet" href="/css/sidebar.css" />
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div>
+	<div th:replace="~{fragments/header :: header}"></div>
+
 <div th:replace="~{fragments/sidebar :: div}"></div>
 
 	<!-- Main Content -->
@@ -54,6 +55,6 @@
 	            <button type="submit" class="btn btn-danger mt-2">Delete Cylinder</button>
 	        </form>
 	    </div>
-
+		<script src="/js/hamburgerMenu.js"></script>
 </body>
 </html>

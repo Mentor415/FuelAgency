@@ -19,7 +19,8 @@
                   <link rel="stylesheet" href="/css/sidebar.css" />
               </head>
               <body>
-                  <div th:replace="fragments/header :: header"></div>
+                <div th:replace="~{fragments/header :: header}"></div>
+
                   <div th:replace="~{fragments/sidebar :: div}"></div>
 
     <!-- Main Content -->
@@ -134,6 +135,7 @@
             });
         });
     </script>
+        <script src="/js/hamburgerMenu.js"></script>
 </body>
 </html>
 

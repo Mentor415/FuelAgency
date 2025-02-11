@@ -16,7 +16,8 @@
   <link rel="stylesheet" href="/css/about.css" />
 </head>
 <body>
-  <div th:replace="fragments/header :: header"></div>
+  <div th:replace="~{fragments/header :: header}"></div>
+
 
   <section class="about-us">
     <div class="container">
@@ -111,5 +112,6 @@
       </div>
     </div>
   </section>
+  <script src="/js/hamburgerMenu.js"></script>
 </body>
 </html>

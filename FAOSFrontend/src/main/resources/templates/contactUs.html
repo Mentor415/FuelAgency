@@ -16,7 +16,8 @@
   <link rel="stylesheet" href="/css/components/header.css" />
 </head>
 <body>
-    <div th:replace="fragments/header :: header"></div>
+  <div th:replace="~{fragments/header :: header}"></div>
+
   
     <section class="contact-us">
       <div class="container">
@@ -87,6 +88,6 @@
         </div>
       </div>
     </section>
-  
+    <script src="/js/hamburgerMenu.js"></script>
   </body>
   </html>

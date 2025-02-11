@@ -131,7 +131,8 @@
 </head>
 <body>
     <div class="overlay"></div>
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/header :: header}"></div>
+
     <div class="container">
         <h3>Welcome to Supplier Module!</h3>
         <div class="actions">
@@ -143,5 +144,6 @@
     <footer>
         <p>&copy; 2025 Supplier Management System. All Rights Reserved.</p>
     </footer>
+    <script src="/js/hamburgerMenu.js"></script>
 </body>
 </html>

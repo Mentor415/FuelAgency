@@ -1,13 +1,14 @@
 package com.faos.service;
 
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.faos.exception.InvalidEntityException;
 import com.faos.model.Customer;
@@ -75,12 +76,23 @@ public class CustomerService {
 	}
 
 	public void validateCustomerData(Customer customer) {
+		Map<String, String> errorMap = new HashMap<>();
 		if (!customer.getEmail().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
-			throw new InvalidEntityException("Invalid email format.");
+			errorMap.put("email", "Invalid email format.");
 		}
 		if (!customer.getContactNo().matches("^[9876]\\d{9}$")) {
-			throw new InvalidEntityException("Contact number must be 10 digits and start with 9, 8, 7, or 6.");
+			errorMap.put("contactNo", "Contact number must be 10 digits and start with 9, 8, 7, or 6.");
 		}
+		if(isEmailExists(customer.getEmail())){
+			errorMap.put("emailExist","Customer with this email already exists.");
+		}
+		if(isContactExists(customer.getContactNo())){
+			errorMap.put("contactExist","Customer with this Contact already exists.");
+		}
+		if(!errorMap.isEmpty()){
+			throw new InvalidEntityException(errorMap);
+		}
+		
 	}
 
 	// Check email id already exist or not
@@ -125,7 +137,7 @@ public class CustomerService {
 		customerRepository.findById(consumerId).ifPresentOrElse(customer -> {
 			customer.setActive(false);
 			customerRepository.save(customer);
-			emailService.sendMailWhenUserDeactivates(consumerId);
+			emailService.sendMailWhenUserDeactivates(consumerId); 
 		}, () -> {
 			throw new InvalidEntityException("Customer not found with ID: " + consumerId);
 		});

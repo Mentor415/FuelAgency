@@ -96,7 +96,8 @@
     <link rel="stylesheet" href="/css/sidebar.css" />
 </head>
 <body>
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/header :: header}"></div>
+
     <div th:replace="~{fragments/sidebar :: div}"></div>
     <div class="container">
         <div class="filter-section">
@@ -175,5 +176,6 @@
 	        });
 
 	    </script>
+            <script src="/js/hamburgerMenu.js"></script>
 </body>
 </html>
