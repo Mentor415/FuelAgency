@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.faos.dto.CustomerBookingReport;
 import com.faos.exception.InvalidDateRangeException;
+import com.faos.model.Customer;
 import com.faos.service.ReportService;
 
 @RestController
-@RequestMapping("/reports")
+@RequestMapping("/report")
 public class ReportController {
 
     @Autowired
@@ -46,6 +47,18 @@ public class ReportController {
             // Handle any other unexpected exceptions
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An unexpected error occurred: " + e.getMessage());
+        }
+
+    }
+
+    @GetMapping("/inactive-customers")
+    public ResponseEntity<?> getInactiveCustomers() {
+        try {
+            List<Customer> report = reportService.getCustomersWithNoRecentBookings();
+            return ResponseEntity.ok(report);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occured " + e.getMessage());
+
         }
     }
 }

@@ -12,6 +12,20 @@
     <link rel="stylesheet" href="/css/components/header.css" />
     
     <style>
+        @media screen and (max-width: 970px) {
+    .nav-list-hamburger {
+        display: none;
+        flex-direction: column;
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        position: absolute;
+        top: 52px;
+        right: 0;
+        width: 200px;
+        padding: 10px;
+        border-radius: 0 0 8px 8px;
+        z-index: 1200;
+    }
+}
         .text-danger {
             color: #dc3545;
             font-size: 0.875rem;
@@ -41,7 +55,7 @@
        <form th:action="@{/update/{id}(id=${id != null ? id : customer.consumerId})}" th:object="${customer}" method="post">
             <div class="form-group">
                 <label class="form-label" for="name">Name:</label>
-                <input type="name" class="form-control" id="name" th:field="*{consumerName}" required>
+                <input type="text" class="form-control" id="name" th:field="*{consumerName}" required>
             </div>
 
             <div class="form-group">

@@ -95,6 +95,19 @@ public class CustomerService {
 		
 	}
 
+	public void validateCustomerUpdateData(Customer customer){
+		Map<String, String> errorMap = new HashMap<>();
+		if (!customer.getEmail().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+			errorMap.put("email", "Invalid email format.");
+		}
+		if (!customer.getContactNo().matches("^[9876]\\d{9}$")) {
+			errorMap.put("contactNo", "Contact number must be 10 digits and start with 9, 8, 7, or 6.");
+		}
+		if(!errorMap.isEmpty()){
+			throw new InvalidEntityException(errorMap);
+		}
+	}
+
 	// Check email id already exist or not
 	public boolean isEmailExists(String email) {
 		return customerRepository.existsByEmail(email) ;

@@ -87,7 +87,7 @@ public class CustomerController {
         }
 
         try {
-            customerService.validateCustomerData(updatedCustomer);
+            customerService.validateCustomerUpdateData(updatedCustomer);
         } catch (InvalidEntityException ex) {
 			return ResponseEntity.badRequest().body(ex.getErrorMap());
         }

@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.faos.model.Booking;
+import com.faos.model.Customer;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
@@ -47,4 +48,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             + "GROUP BY b.customer")
     List<Object[]> findBookingCountsByCustomer(@Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
+
+    @Query("SELECT c FROM Customer c WHERE c.isActive = true AND c.consumerId NOT IN "
+            + "(SELECT DISTINCT b.customer.consumerId FROM Booking b WHERE b.bookingDate >= :sixMonthsAgo)")
+    List<Customer> findCustomersWithNoBookingsInLastSixMonths(@Param("sixMonthsAgo") LocalDate sixMonthsAgo);
 }

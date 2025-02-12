@@ -206,6 +206,7 @@ public class CustomerController {
         String userId = (String) session.getAttribute("userId");
         String userType = (String) session.getAttribute("userType");
 
+
         if (userId == null || (!userType.equals("ADMIN") && !userId.equals(id))) {
             return "redirect:/login";
         }
@@ -237,16 +238,16 @@ public class CustomerController {
                 if (errors.containsKey("email")) {
                     bindingResult.rejectValue("email", "error.email", errors.get("email"));
                 }
-                if(errors.containsKey("emailExist")){
-                    bindingResult.rejectValue("email", "error.email", errors.get("emailExist"));
-                }
+                // if(errors.containsKey("emailExist")){
+                //     bindingResult.rejectValue("email", "error.email", errors.get("emailExist"));
+                // }
                 // Handle contact validation errors
                 if (errors.containsKey("contactNo")) {
                     bindingResult.rejectValue("contactNo", "error.contactNo", errors.get("contactNo"));
                 }
-                if (errors.containsKey("contactExist")) {
-                    bindingResult.rejectValue("contactNo", "error.contactNo", errors.get("contactExist"));
-                }
+                // if (errors.containsKey("contactExist")) {
+                //     bindingResult.rejectValue("contactNo", "error.contactNo", errors.get("contactExist"));
+                // }
             } catch (JsonProcessingException ex) {
                 model.addAttribute("errorMessage", "Registration failed: Invalid data");
             }

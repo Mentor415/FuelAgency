@@ -13,11 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.faos.dto.CustomerBookingReport;
 import com.faos.exception.InvalidDateRangeException;
+import com.faos.model.Customer;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -60,7 +63,7 @@ public String getCustomerReportWithMaxBookings(
         }
 
         ResponseEntity<List<CustomerBookingReport>> response = restTemplate.exchange(
-                BACKENED_URL + "/reports/max-bookings?startDate=" + startDate + "&endDate=" + endDate,
+                BACKENED_URL + "/report/max-bookings?startDate=" + startDate + "&endDate=" + endDate,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<CustomerBookingReport>>() {});
@@ -79,6 +82,22 @@ public String getCustomerReportWithMaxBookings(
         return "report";
     }
 }
+ @GetMapping("/report/inactive-customers")
+    @ResponseBody
+    public ResponseEntity<?> getInactiveCustomers() {
+        try {
+            ResponseEntity<List<Customer>> response = restTemplate.exchange(
+                    "http://localhost:8080" + "/report/inactive-customers",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<Customer>>() {
+                    });
+
+            return ResponseEntity.ok(response.getBody());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("An unexpected error occurred: " + e.getMessage());
+        }
+    }
 
 }
 

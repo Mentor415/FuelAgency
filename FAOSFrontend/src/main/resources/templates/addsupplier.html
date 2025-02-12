@@ -14,7 +14,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    />
     <link rel="stylesheet" href="/css/components/header.css" />
     <style>
       body {
@@ -25,7 +28,7 @@
       }
       .container {
         max-width: 600px;
-        margin: 2rem auto;
+        margin: 8rem auto;
         padding: 2rem;
         background: white;
         border-radius: 10px;
@@ -104,14 +107,12 @@
       }
     </style>
     <link rel="stylesheet" href="/css/components/header.css" />
-</head>
-<body>
-  <div th:replace="~{fragments/header :: header}"></div>
+  </head>
+  <body>
+    <div th:replace="~{fragments/header :: header}"></div>
 
-    <div class="container ">
+    <div class="container">
       <h2 class="fw-bold text-primary">ADD SUPPLIER</h2>
-
-      
 
       <!--Genereal error message-->
       <div th:if="${errorMessage}" class="alert">

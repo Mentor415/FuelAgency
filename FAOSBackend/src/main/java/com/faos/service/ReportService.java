@@ -60,4 +60,8 @@ public class ReportService {
 
         return reportList;
     }
+    public List<Customer> getCustomersWithNoRecentBookings() {
+        LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
+        return bookingRepository.findCustomersWithNoBookingsInLastSixMonths(sixMonthsAgo);
+    }
 }
