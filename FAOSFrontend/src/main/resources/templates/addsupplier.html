@@ -97,7 +97,7 @@
         transition: background-color 0.3s ease;
       }
       .button-group a:hover {
-        background-color: cornflowerblue;
+        background-color: #0b2f9f;
       }
       .show-error {
         color: red;
@@ -111,7 +111,7 @@
   <body>
     <div th:replace="~{fragments/header :: header}"></div>
 
-    <div class="container">
+    <div class="container mt-4">
       <h2 class="fw-bold text-primary">ADD SUPPLIER</h2>
 
       <!--Genereal error message-->
@@ -177,12 +177,12 @@
           <p th:errors="*{email}" class="show-error"></p>
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit" style="background: linear-gradient(to right, #38A169, #2F855A);">Submit</button>
       </form>
 
       <!-- Back to Home and View Suppliers Buttons -->
       <div class="button-group">
-        <a href="/">Back to Home</a>
+        <a href="/supplier/index" style="background-color: #333; color: white;">Back to Home</a>
         <a href="/suppliers">View Suppliers</a>
       </div>
     </div>

@@ -1,68 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/sidebar.css" /
-  </head>
-  <body>
-    <div
-      class="d-flex flex-column flex-shrink-0 p-3 bg-light sidebar"
-      style="width: 270px; height: 100vh; position: fixed"
-    >
-      <a
-        href="/"
-        class="d-flex align-items-center mb-3 me-md-auto link-dark text-decoration-none"
-      >
-        <span class="fs-4 fw-bold">Cylinder Management</span>
-      </a>
-      <hr />
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-          <a th:href="@{/cylinders}" class="sidebar-link sidebar-btn"
-            >View Cylinders</a
-          >
-        </li>
-        <li>
-          <a th:href="@{/add-cylinder}" class="sidebar-link sidebar-btn"
-            >Add New Cylinder</a
-          >
-        </li>
-        <li>
-          <a th:href="@{/update-cylinder}" class="sidebar-link sidebar-btn"
-            >Update Cylinder</a
-          >
-        </li>
-        <li>
-          <a th:href="@{/refill-cylinder}" class="sidebar-link sidebar-btn"
-            >Refill Cylinder</a
-          >
-        </li>
-        <li>
-          <a th:href="@{/delete-cylinder}" class="sidebar-link sidebar-btn"
-            >Delete Cylinder</a
-          >
-        </li>
-        <li>
-          <a th:href="@{/suppliers}" class="sidebar-link sidebar-btn"
-            >All Suppliers</a
-          >
-        </li>
-      </ul>
-    </div>
-  </body>
-</html>
+    <title>Sidebar Toggle</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+    
+    <!-- FontAwesome for Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+    
+    <style>
+        /* Sidebar Styling */
+        .sidebar {
+            width: 270px;
+            height: 60vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: rgba(255, 255, 255, 0.9);
+            transition: width 0.3s ease-in-out;
+            overflow-x: hidden;
+            padding: 15px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+			z-index: -1;
+        }
 
-<script>
-  // Highlight active button when clicked
-  document.addEventListener("DOMContentLoaded", function () {
-    let buttons = document.querySelectorAll(".sidebar-btn");
-    buttons.forEach((button) => {
-      button.addEventListener("click", function () {
-        buttons.forEach((btn) => btn.classList.remove("active-btn"));
-        this.classList.add("active-btn");
-      });
-    });
-  });
-</script>
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="d-flex flex-column flex-shrink-0 sidebar">
+		
+        <ul class="nav nav-pills flex-column mt-4">
+            <li class="nav-item"><a th:href="@{/cylinders}" class="sidebar-btn mb-2">View Cylinders</a></li>
+            <li><a th:href="@{/add-cylinder}" class="sidebar-btn mb-2">Add New Cylinder</a></li>
+            <li><a th:href="@{/update-cylinder}" class="sidebar-btn mb-2">Update Cylinder</a></li>
+            <li><a th:href="@{/refill-cylinder}" class="sidebar-btn mb-2">Refill Cylinder</a></li>
+            <li><a th:href="@{/delete-cylinder}" class="sidebar-btn mb-2">Delete Cylinder</a></li>
+            <li><a th:href="@{/suppliers}" class="sidebar-btn mb-2">All Suppliers</a></li>
+        </ul>
+    </div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+			    
+</body>
+</html>
