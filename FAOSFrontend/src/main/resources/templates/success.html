@@ -63,8 +63,8 @@
 			<img src="/images/check.png" height="80px" width="80px" />
             <h2 th:text="${message}">Operation Successful!</h2>
             <div class="actions">
-                <a href="/suppliers" class="btn-green"><i class="fa fa-eye"></i> View Suppliers</a>
-                <a href="/suppliers/add" class="btn-blue"><i class="fa fa-plus"></i> Add Another Supplier</a>
+                <a th:href="@{/suppliers}" class="btn-green"><i class="fa fa-eye"></i> View Suppliers</a>
+                <a th:href="@{/addsupplier}" class="btn-blue"><i class="fa fa-plus"></i> Add Another Supplier</a>
             </div>
         </div>
 		<!--<script src="/js/success.js"></script>-->
