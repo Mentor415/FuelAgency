@@ -132,4 +132,10 @@ public class BookingService {
     public Booking saveBooking(Booking booking) {
         return bookingRepository.save(booking);
     }
+
+    public  int subCharge(String consumerId) {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfYear = today.withDayOfYear(1);
+        return bookingRepository.findByConsumerIds(consumerId, startOfYear, today);
+    }
 }

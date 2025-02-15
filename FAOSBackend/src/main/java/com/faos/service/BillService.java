@@ -1,10 +1,13 @@
 package com.faos.service;
 
+import com.faos.exception.CustomExceptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.faos.model.Bill;
 import com.faos.repository.BillRepository;
+
+import java.util.Optional;
 
 
 @Service
@@ -13,9 +16,13 @@ public class BillService {
 	    private BillRepository billRepository;
 
 	   
-	    	 public Bill createBill(String deliveryOption, boolean surchargeApplicable) {
+	    	 public Bill createBill(String deliveryOption, boolean surchargeApplicable, long count) {
 	    	        Bill bill = new Bill();
-	    	        long price = 1000;  // Base price of the cylinder
+
+	    	        long price = 1000;
+					if(count>6)
+					{ price=1000+1000*20/100;
+					}// Base price of the cylinder
 	    	        long gst = 10;      // Fixed GST value
 	    	        long deliveryCharge;
 	    	        long totalPrice;
@@ -45,5 +52,14 @@ public class BillService {
 	    	        return billRepository.save(bill);
 	    	    
 	    }
-	    
+
+	public Optional<Bill> findByBookingId(Long billId) {
+				 return billRepository.findById(billId);
+	}
+
+	public Bill findByBookingIds(Long billId) throws CustomExceptions {
+		return billRepository.findById(billId)
+				.orElseThrow(() -> new CustomExceptions("Bill not found with ID: " + billId));
+	}
+
 }

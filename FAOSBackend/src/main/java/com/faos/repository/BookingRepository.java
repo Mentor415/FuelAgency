@@ -58,4 +58,10 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     // Retrieves all bookings for a customer between two dates
     List<Booking> findByCustomer_ConsumerIdAndBookingDateBetween(String consumerId, LocalDate startDate, LocalDate endDate);
+
+    @Query("SELECT COUNT(b) FROM Booking b WHERE b.customer.consumerId = :consumerId AND b.bookingDate BETWEEN :startDate AND :endDate")
+    Integer findByConsumerIds(@Param("consumerId") String consumerId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+//    long findByConsumerIds(@Param("consumerId") String consumerId, @Param("string") String string, );
+
 }

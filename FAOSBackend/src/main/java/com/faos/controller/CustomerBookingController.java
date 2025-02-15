@@ -71,10 +71,13 @@ public class CustomerBookingController {
 
             // Create a bill based on delivery option
             long count = bookingService.countBookingsInLast12Months(consumerId);
+            String januaryFirst = LocalDate.of(LocalDate.now().getYear(), 1, 1).toString();
+            int count1 = bookingService.subCharge(consumerId);
+
             boolean surchargeApplicable = count >= 6;
 
             // ✅ Create Bill with surcharge check
-            Bill bill = billService.createBill(booking.getDeliveryOption(), surchargeApplicable);
+            Bill bill = billService.createBill(booking.getDeliveryOption(), surchargeApplicable, count1);
             booking.setBill(bill); // Associate the bill with the booking
 
             // Update previous booking if needed
@@ -157,6 +160,19 @@ public class CustomerBookingController {
             return ResponseEntity.ok(allBookings);
         } catch (Exception e) {
             throw new CustomException("An error occurred while retrieving the booking history.", e);
+        }
+    }
+
+    @GetMapping("/bills")
+    public ResponseEntity<Bill> bills(@RequestParam Long billId) {
+        try {
+            Bill allBookings = billService.findByBookingIds(billId);
+            System.out.println(allBookings);
+            return ResponseEntity.ok(allBookings);
+        } catch (Exception e) {
+            throw new CustomException("An error occurred while retrieving the booking history.", e);
+        } catch (CustomExceptions e) {
+            throw new RuntimeException(e);
         }
     }
 

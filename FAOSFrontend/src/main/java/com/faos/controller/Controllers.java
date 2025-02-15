@@ -146,7 +146,7 @@ public class Controllers {
                     "http://localhost:8080/checkBooking?consumerId=" + booking.getConsumerId(),
                     Boolean.class).getBody();
             if (Boolean.FALSE.equals(canBook)) {
-                model.addAttribute("permit", "Sorry, you can't book a cylinder before 30 days.");
+                model.addAttribute("permit", "Sorry, you can't book a cylinder before 30 days of your last booking.");
                 return "booking"; // Stop the booking process
             }
 
@@ -268,6 +268,7 @@ public class Controllers {
             Font thankYouFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLDITALIC, BaseColor.BLUE);
             Font redfont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLDITALIC, BaseColor.RED);
 
+
             // Header
             Paragraph title = new Paragraph("Booking Confirmation Bill", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
@@ -302,6 +303,10 @@ public class Controllers {
             document.add(detailsTable);
 
             // Price Details
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<BookingPageView> responses = restTemplate.getForEntity("http://localhost:8080/bills?billId="+ + bill.getBookingId(), BookingPageView.class);
+            BookingPageView billResponses = responses.getBody();
+
             document.add(new Paragraph("\n")); // Line break
             PdfPTable billTable = new PdfPTable(2);
             billTable.setWidthPercentage(50);
@@ -310,10 +315,10 @@ public class Controllers {
             addTableRow(billTable, "Base Price:", "₹ " + basePrice, labelFont, valueFont);
             addTableRow(billTable, "GST:", "₹ " + gst, redfont, valueFont);
             addTableRow(billTable, "Delivery Charge:", "₹ " + deliveryCharge, labelFont, valueFont);
-            if (surcharge > 0) {
-                addTableRow(billTable, "Surcharge (20% extra):", "₹ " + surcharge, labelFont, valueFont);
-            }
-            addTableRow(billTable, "Total Price:", "₹ " + totalPrice, redfont, valueFont);
+
+                addTableRow(billTable, "Surcharge (20% extra):", "₹ " + billResponses.getSurcharge(), labelFont, valueFont);
+
+            addTableRow(billTable, "Total Price:", "₹ " + billResponses.getTotalPrice(), redfont, valueFont);
             document.add(billTable);
 
             // Thank You

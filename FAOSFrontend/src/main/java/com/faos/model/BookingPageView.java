@@ -15,6 +15,7 @@ public class BookingPageView {
     private LocalDateTime regDate;
     private String connType;
 
+
     private String timeSlot;
     private String deliveryOption;
     private LocalDate deliveryDate=LocalDate.now();
@@ -23,7 +24,17 @@ public class BookingPageView {
     private String id;
     
     private Long surcharge;
+//    private Long surcharge;
 
+    private Long totalPrice;
+
+    public Long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public Long getSurcharge() {
 		return surcharge;
