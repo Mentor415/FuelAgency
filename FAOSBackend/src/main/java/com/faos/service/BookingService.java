@@ -109,5 +109,27 @@ public class BookingService {
         return  id;// Return 0 if no previous booking is found
     }
     
+    public LocalDate getFirstBookingDateForCustomer(String consumerId) {
+        Booking firstBooking = bookingRepository.findFirstByCustomer_ConsumerIdOrderByBookingDateAsc(consumerId);
+        if (firstBooking != null) {
+            return firstBooking.getBookingDate();
+        } else {
+            throw new IllegalArgumentException("No bookings found for customer with ID: " + consumerId);
+        }
+    }
 
+    /**
+     * Returns the count of bookings made by the customer between startDate and endDate.
+     */
+    public int getBookingCountInPeriod(String consumerId, LocalDate startDate, LocalDate endDate) {
+        List<Booking> bookings = bookingRepository.findByCustomer_ConsumerIdAndBookingDateBetween(consumerId, startDate, endDate);
+        return bookings.size();
+    }
+    
+    /**
+     * Saves the booking entity.
+     */
+    public Booking saveBooking(Booking booking) {
+        return bookingRepository.save(booking);
+    }
 }

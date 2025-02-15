@@ -1,5 +1,6 @@
 package com.faos.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.faos.dto.BookingPageView;
 import com.faos.exception.CustomException;
 import com.faos.exception.CustomExceptions;
 import com.faos.model.Bill;
@@ -206,5 +208,36 @@ public class CustomerBookingController {
                     .body("Failed to update cylinder status: " + e.getMessage());
         }
     }
+    @GetMapping("/getBookingCountInLast12Months")
+    public ResponseEntity<Integer> getBookingCountInLast12Months(@RequestParam String consumerId) {
+        // Fetch the first booking date for the customer
+        LocalDate firstBookingDate = bookingService.getFirstBookingDateForCustomer(consumerId);
+        
+        // Calculate the 12-month window
+        LocalDate twelveMonthsLater = firstBookingDate.plusMonths(12);
+        
+        // Count the bookings made within the last 12 months
+        int count = bookingService.getBookingCountInPeriod(consumerId, firstBookingDate, twelveMonthsLater);
+        
+        return ResponseEntity.ok(count);
+    }
+    
+    @GetMapping("/getFirstBookingDate")
+    public ResponseEntity<BookingPageView> getFirstBookingDate(@RequestParam String consumerId) {
+        try {
+            // Retrieve the first booking date using the bookingService
+            LocalDate firstBookingDate = bookingService.getFirstBookingDateForCustomer(consumerId);
+            
+            // Prepare a BookingPageView (or a suitable DTO) to return the date
+            BookingPageView response = new BookingPageView();
+            response.setBookingDate(firstBookingDate);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            throw new CustomException("An error occurred while retrieving the first booking date.", e);
+        }
+    }
+
+
 
 }

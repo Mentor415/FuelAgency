@@ -125,69 +125,91 @@ public class Controllers {
     @PostMapping("/submit-booking")
     public String addCustomer(@ModelAttribute BookingPageView booking, Model model) {
         try {
-            // Set delivery details
+            // --- Set delivery details and calculate base price ---
             if ("Normal".equals(booking.getDeliveryOption())) {
                 booking.setDeliveryDate(LocalDate.now().plusDays(3));
                 gst = 10;
                 delivery_charge = 50;
-                price = (1000 + gst + delivery_charge);
+                price = 1000 + gst + delivery_charge;
             } else if ("Express".equals(booking.getDeliveryOption())) {
                 booking.setDeliveryDate(LocalDate.now().plusDays(1));
                 gst = 10;
                 delivery_charge = 100;
-                price = (1000 + gst + delivery_charge);
+                price = 1000 + gst + delivery_charge;
+            } else {
+                throw new IllegalArgumentException("Invalid delivery option: " + booking.getDeliveryOption());
             }
-            price = 1000 + gst + delivery_charge;
             surcharge = 0; // Reset surcharge
 
-            // ✅ Check if customer can book a cylinder (30-day restriction)
+            // --- Check if customer can book a cylinder (30-day restriction) ---
             Boolean canBook = getRestTemplate().getForEntity(
-                    "http://localhost:8080/checkBooking?consumerId=" + booking.getConsumerId(), Boolean.class).getBody();
-
+                    "http://localhost:8080/checkBooking?consumerId=" + booking.getConsumerId(),
+                    Boolean.class).getBody();
             if (Boolean.FALSE.equals(canBook)) {
                 model.addAttribute("permit", "Sorry, you can't book a cylinder before 30 days.");
                 return "booking"; // Stop the booking process
             }
 
-            // ✅ Check if the customer has exceeded 6 bookings per year
-            Boolean sixValidation = getRestTemplate().getForEntity(
-                    "http://localhost:8080/sixeValidation?consumerId=" + booking.getConsumerId(), Boolean.class).getBody();
+            // --- Surcharge Logic: Apply 20% surcharge if this is the 7th booking within 12 months ---
+            try {
+                // Get the first booking date for the customer
+                ResponseEntity<BookingPageView> firstBookingResponse = getRestTemplate().getForEntity(
+                        "http://localhost:8080/getFirstBookingDate?consumerId=" + booking.getConsumerId(),
+                        BookingPageView.class);
+                if (firstBookingResponse.getStatusCode().is2xxSuccessful() && firstBookingResponse.getBody() != null) {
+                    LocalDate firstBookingDate = firstBookingResponse.getBody().getBookingDate();
+                    LocalDate twelveMonthsLater = firstBookingDate.plusMonths(12);
 
-//            if (Boolean.TRUE.equals(sixValidation)) {
-//            	 surcharge = (long) (price * 0.2);
-//                // ⚡ Add surcharge message
-//                model.addAttribute("surchargeMessage", "You have exceeded the six-cylinder limit. A 20% surcharge will be added.");
-//            }
+                    // Only check surcharge if today's date is within the 12-month window
+                    if (!LocalDate.now().isAfter(twelveMonthsLater)) {
+                        ResponseEntity<Integer> countResponse = getRestTemplate().getForEntity(
+                                "http://localhost:8080/getBookingCountInLast12Months?consumerId=" + booking.getConsumerId(),
+                                Integer.class);
+                        int count = countResponse.getBody();
+                        // If 6 or more bookings already exist, then this booking is the 7th (or higher)
+                        if (count >= 6) {
+                            surcharge = (long) (price * 0.2);
+                            model.addAttribute("surchargeMessage", "You have exceeded 6 bookings within the last 12 months. A 20% surcharge has been added.");
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                // If there is an error retrieving the booking history, assume no surcharge applies.
+            }
 
-            // Fetch available cylinder ID
+            // --- Fetch available cylinder ID ---
             String cylinderId = getRestTemplate().getForEntity(
-                    "http://localhost:8080/getCylinderId?type=" + booking.getConnType(), String.class).getBody();
+                    "http://localhost:8080/getCylinderId?type=" + booking.getConnType(),
+                    String.class).getBody();
             System.out.println(cylinderId);
             if (cylinderId == null) {
                 model.addAttribute("sorry", "Sorry, Cylinder not available");
                 return "booking";
             }
 
-            // ✅ Proceed with booking
+            // --- Proceed with booking ---
             booking.setCylinderid(cylinderId);
             getRestTemplate().postForEntity(
-                    "http://localhost:8080/updateCylinder?cylinderid=" + cylinderId, booking, String.class);
+                    "http://localhost:8080/updateCylinder?cylinderid=" + cylinderId,
+                    booking,
+                    String.class);
             booking.setBookingDate(LocalDate.now());
 
             // Save booking with customer & cylinder ID
             getRestTemplate().postForEntity(
                     "http://localhost:8080/addbooking?consumerId=" + booking.getConsumerId() + "&cylinderid=" + cylinderId,
-                    booking, BookingPageView.class);
+                    booking,
+                    BookingPageView.class);
 
-            // Fetch recent booking
+            // Fetch recent booking for confirmation display
             ResponseEntity<BookingPageView> recentResponse = getRestTemplate().getForEntity(
-                    "http://localhost:8080/recentBooking", BookingPageView.class);
-
+                    "http://localhost:8080/recentBooking",
+                    BookingPageView.class);
             if (recentResponse.getStatusCode().is2xxSuccessful() && recentResponse.getBody() != null) {
                 model.addAttribute("recent", recentResponse.getBody());
             }
-            long totalPrice = price + surcharge; // Final price after surcharge
 
+            long totalPrice = price + surcharge; // Final price after surcharge
             booking.setSurcharge(surcharge);
             booking.setPrice(totalPrice);
 
@@ -196,8 +218,7 @@ public class Controllers {
             model.addAttribute("price", totalPrice);
             model.addAttribute("surcharge", surcharge);
 
-           
-            return "bsuccess";  // Redirects to success.html where the popup will be handled
+            return "bsuccess";  // Redirects to bsuccess.html where the popup will be handled
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Failed to submit booking: " + e.getMessage());

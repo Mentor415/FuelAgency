@@ -52,4 +52,10 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query("SELECT c FROM Customer c WHERE c.isActive = true AND c.consumerId NOT IN "
             + "(SELECT DISTINCT b.customer.consumerId FROM Booking b WHERE b.bookingDate >= :sixMonthsAgo)")
     List<Customer> findCustomersWithNoBookingsInLastSixMonths(@Param("sixMonthsAgo") LocalDate sixMonthsAgo);
+    
+    // Retrieves the earliest booking for a customer (by consumerId)
+    Booking findFirstByCustomer_ConsumerIdOrderByBookingDateAsc(String consumerId);
+
+    // Retrieves all bookings for a customer between two dates
+    List<Booking> findByCustomer_ConsumerIdAndBookingDateBetween(String consumerId, LocalDate startDate, LocalDate endDate);
 }
