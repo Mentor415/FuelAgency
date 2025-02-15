@@ -36,14 +36,14 @@
       }
 
       .container {
-        max-width: calc(100% - 300px);
-        margin: 6rem auto 2rem 290px;
+        max-width: 80%;
+        margin: 6rem auto;
         padding: 4rem;
         background: white;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
         transition: all 0.3s ease;
-        overflow: scroll;
+        
       }
       .filter-section {
         margin-bottom: 1.5rem;
@@ -136,8 +136,7 @@
   <body>
     <button class="sidebar-hamburger hamburger">&#9776;</button>
     <div th:replace="~{fragments/header :: header}"></div>
-    <div th:replace="~{fragments/sidebar :: div}"></div>
-    <div class="container">
+    <div class="container" >
       <div class="filter-section">
         <input
           type="text"
