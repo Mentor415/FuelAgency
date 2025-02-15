@@ -12,6 +12,7 @@
   gap: 15px;
   z-index: 1000;
   overflow-y: auto; /* Add scroll if content is too long */
+  border-radius: 10px;
 }
 
   /* Sidebar Header */
@@ -108,7 +109,7 @@
         gap: 1rem;
     }
 }
-@media (max-width:1438px ){
+@media (max-width:1438px){
 
   .sidebar{
     top: 130px;
@@ -119,7 +120,7 @@
   .sidebar {
     position: fixed;
     left: -290px;
-    top: 0;
+    top: 79px;
     height: 100%;
     width: 290px;
     transition: all 0.3s ease;
@@ -161,4 +162,3 @@
     display: block !important;
   }
 }
-

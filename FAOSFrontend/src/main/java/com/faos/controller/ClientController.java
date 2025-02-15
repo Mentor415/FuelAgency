@@ -38,11 +38,6 @@ public class ClientController {
     public String home() {
         return "supplierindex";
     }
-    
-    /*@GetMapping("/supplier/home")
-    public String homePage() {
-    	return "home";
-    }*/
 
     //view supplier
     @GetMapping("/suppliers")

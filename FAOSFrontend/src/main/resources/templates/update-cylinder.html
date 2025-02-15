@@ -24,32 +24,60 @@
 
     <link rel="stylesheet" href="/css/components/header.css" />
     <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/components/buttons.css" />
+    <style>
+         .container {
+        max-width: 100%;
+        margin: 1rem auto 2rem 290px;
+        background: white;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        overflow: scroll;
+      }
+      @media (max-width: 970px) {
+        .container {
+          margin-left: auto;
+        }
+      }
+
+      @media (max-width:768px)
+      {
+        .btn{
+            font-size: 13px
+        }
+      }
+    </style>
   </head>
   <body>
+    <button class="sidebar-hamburger hamburger">&#9776;</button>
     <div th:replace="~{fragments/header :: header}"></div>
 
     <div th:replace="~{fragments/sidebar :: div}"></div>
 
     <!-- Main Content -->
-    <div class="container" style="margin-left: 270px; width: 70%">
-      <h2 class="fw-bold text-primary mt-4">Update Cylinder</h2>
-      <p class="text-muted">Update the details below to modify the cylinder.</p>
-
-      <!-- Cylinder ID Input (for searching the cylinder) -->
-      <div class="mb-3">
-        <label class="form-label">Enter Cylinder ID</label>
-        <input
-          type="text"
-          id="cylinderId"
-          name="cylinderId"
-          class="form-control"
-          placeholder="Enter Cylinder ID"
-          required
-        />
-        <button type="button" class="btn btn-primary mt-2" id="fetchCylinder">
-          Fetch Cylinder
-        </button>
+    <div class="container">
+      <div>
+        <h2 class="fw-bold text-primary mt-4" >Update Cylinder</h2>
+        <p class="text-muted">Update the details below to modify the cylinder.</p>
+  
+        <!-- Cylinder ID Input (for searching the cylinder) -->
+        <div class="mb-3">
+          <label class="form-label">Enter Cylinder ID</label>
+          <input
+            type="text"
+            id="cylinderId"
+            name="cylinderId"
+            class="form-control"
+            placeholder="Enter Cylinder ID"
+            required
+          />
+          <button type="button" class="btn btn-primary mt-2" id="fetchCylinder" style="background-color: rgb(0, 0, 255);">
+            Fetch Cylinder
+          </button>
+        </div>
       </div>
+    
 
       <!-- Form for updating a cylinder -->
       <div class="card shadow-lg border-0 p-4 mt-3">

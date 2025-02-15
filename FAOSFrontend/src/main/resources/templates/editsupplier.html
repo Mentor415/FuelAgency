@@ -97,9 +97,9 @@
     </style>
   </head>
   <body>
+    
     <div th:replace="~{fragments/header :: header}"></div>
 
-    <div th:replace="~{fragments/cylinder-navbar :: nav}"></div>
     <div class="container">
       <h2>Edit Supplier</h2>
       <!--Genereal error message-->
@@ -172,13 +172,13 @@
           <p th:errors="*{email}" class="show-error"></p>
         </div>
 
-        <button type="submit">Save Changes</button>
+        <button type="submit" style="background: linear-gradient(to right, #38A169, #2F855A);">Save Changes</button>
       </form>
 
       <!-- Back to Home and View Suppliers Buttons -->
       <div class="button-group">
-        <a th:href="@{/}">Back to Home</a>
-        <a href="@{/suppliers}">View Suppliers</a>
+        <a th:href="@{/supplier/index}" style="background-color: #333; color: white;">Back to Home</a>
+        <a th:href="@{/suppliers}">View Suppliers</a>
       </div>
     </div>
     <script src="/js/hamburgerMenu.js"></script>

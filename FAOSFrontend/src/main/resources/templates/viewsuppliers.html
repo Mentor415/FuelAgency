@@ -23,20 +23,16 @@
         color: #333;
       }
 
-      .header {
-        background: linear-gradient(
-          45deg,
-          #007bff,
-          #0056b3
-        ); /* Gradient background */
+      header {
+        background-color: #0b2f9f;
         color: white;
-        padding: 15px 0;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        position: fixed;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position:fixed;
         top: 0;
         left: 0;
         right: 0;
-        z-index: 100000;
       }
 
       .container {
@@ -49,7 +45,6 @@
         transition: all 0.3s ease;
         overflow: scroll;
       }
-
       .filter-section {
         margin-bottom: 1.5rem;
         display: flex;
@@ -119,15 +114,28 @@
         display: flex;
         justify-content: space-between;
       }
+      .status-active {
+        color: green;
+        font-weight: bold;
+      }
+
+      .status-inactive {
+        color: #dc3545;
+        font-weight: bold;
+      }
+      @media (max-width:1438px)
+      {
+    .container{
+        margin: 8rem auto 2rem 290px;
+    }        
+      }
     </style>
     <link rel="stylesheet" href="/css/components/header.css" />
     <link rel="stylesheet" href="/css/sidebar.css" />
   </head>
   <body>
     <button class="sidebar-hamburger hamburger">&#9776;</button>
-    
     <div th:replace="~{fragments/header :: header}"></div>
-
     <div th:replace="~{fragments/sidebar :: div}"></div>
     <div class="container">
       <div class="filter-section">
@@ -152,7 +160,9 @@
 
       <!-- Download PDF Button -->
       <div class="button-group text-center mt-4">
-        <a th:href="@{/}" class="btn-custom btn-home">Back to Home</a>
+        <a th:href="@{/supplier/index}" class="btn-custom btn-home"
+          >Back to Home</a
+        >
         <a th:href="@{/deactivateForm}" class="btn-custom btn-deactivate"
           >Deactivate</a
         >
@@ -186,8 +196,10 @@
             <td th:text="${supplier.email}"></td>
             <td
               th:text="${supplier.active ? 'Active' : 'Inactive'}"
+              th:classappend="${supplier.active} ? 'status-active' : 'status-inactive'"
               class="supplier-status"
             ></td>
+            <!-- <td th:text="${supplier.active ? 'Active' : 'Inactive'}" class="supplier-status"></td> -->
             <td>
               <a
                 th:href="@{/suppliers/edit/{id}(id=${supplier.supplierID})}"

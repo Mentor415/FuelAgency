@@ -13,53 +13,38 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
   />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-    
+  <link rel="stylesheet" href="/css/components/header.css" />
     <style>
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
             font-family: 'Roboto', Arial, sans-serif;
-            background: url('/images/cylinders-background.jpg') no-repeat center center/cover;
+            
             color: #fff;
             text-align: center;
             display: flex;
             flex-direction: column;
         }
-        
-        .overlay {
-            background: rgba(0, 0, 0, 0.6);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        
-        header {
-            background-color: rgba(22, 50, 91, 0.9);
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 2;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-        
+		body::before {
+					    content: "";
+					    position: fixed;
+					    width: 100%;
+					    height: 100%;
+					    background: url('/images/supplier.jpg') no-repeat center center fixed;
+					    background-size: cover;
+					    z-index: -1; /* Send it behind everything */
+		}
+     
         .container {
             max-width: 100%;
             margin: auto;
             padding: 2rem;
-            background: rgba(255, 255, 255, 0.9);
-            
+			background: rgba(255, 255, 255, 0.1); /* Reduce opacity */
+			
             text-align: center;
             position: relative;
+            z-index: 2;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
             flex-grow: 1;
             display: flex;
@@ -68,11 +53,11 @@
           
         }
         
-        h3 {
-            color: #16325B;
-            font-size: 2rem;
+        h1{
+            color: white;
             margin-bottom: 1.5rem;
             font-weight: bold;
+			
         }
         
         .actions {
@@ -125,15 +110,13 @@
             width: 100%;
         }
     </style>
-   
-    <link rel="stylesheet" href="/css/components/header.css" />
 </head>
 <body>
-    <div class="overlay"></div>
-    <div th:replace="~{fragments/header :: header}"></div>
+	<!-- Include Header -->
+	    <div th:replace="~{fragments/header :: header}" style="display: inline-block;"></div>
 
     <div class="container">
-        <h3>Welcome to Supplier Module!</h3>
+        <h1>Welcome to Supplier Module!</h1>
         <div class="actions">
             <a th:href="@{/addsupplier}" class="add-supplier"><i class="fa fa-plus"></i> Add Supplier</a>
             <a th:href="@{/suppliers}" class="view-suppliers"><i class="fa fa-eye"></i> View Suppliers</a>

@@ -140,7 +140,7 @@ button:hover {
 .nav-list-hamburger{
   display: flex;
 }
-@media screen and (max-width: 970px) {
+@media screen and (max-width: 1348px) {
   .nav-list-hamburger{
     display: none; /* Hide by default */
     flex-direction: column;
