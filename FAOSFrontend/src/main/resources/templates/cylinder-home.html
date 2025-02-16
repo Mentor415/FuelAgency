@@ -18,44 +18,57 @@
 	      <link rel="stylesheet" href="/css/components/header.css" />
 	      <link rel="stylesheet" href="/css/sidebar.css" />
 		  <style>
-			body, html {
-			    height: 100%;
-			    margin: 0;
-			    padding: 0;
-			}
+              header {
+       background-color: #0b2f9f;
+       color: white;
+       padding: 1.5rem;
+       text-align: center;
+       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+       position:fixed;
+       top: 0;
+       left: 0;
+       right: 0;
+       z-index: 100000;
 
-			body::before {
-			    content: "";
-			    position: fixed;
-			    top: 0;
-			    left: 0;
-			    width: 100%;
-			    height: 100%;
-			    background: url('/images/cylinder-background.jpg.jpg') no-repeat center center fixed;
-			    background-size: cover;
-			    filter: blur(3px); /* Apply blur effect */
-			    z-index: -1; /* Behind everything */
-			}
+     }
+           body, html {
+               height: 100%;
+               margin: 0;
+               padding: 0;
+           }
 
-			.wrapper {
-			    min-height: 100vh;
-			    display: flex;
-			    flex-direction: column;
-			}
+           body::before {
+               content: "";
+               position: fixed;
+               top: 0;
+               left: 0;
+               width: 100%;
+               height: 100%;
+               background: url('/images/cylinder-background.jpg.jpg') no-repeat center center fixed;
+               background-size: cover;
+               filter: blur(3px); /* Apply blur effect */
+               z-index: -1; /* Behind everything */
+           }
 
-			.content {
-			    flex: 1; /* Pushes footer down */
-			}
+           .wrapper {
+               min-height: 100vh;
+               display: flex;
+               flex-direction: column;
+           }
 
-			footer {
-			    padding: 1rem 0;
-			    text-align: center;
-			    font-size: 1rem;
-			    background-color: rgba(207, 215, 207, 0.9);
-			    color: #333;
-			    width: 100%;
-			    position: relative;
-			}
+           .content {
+               flex: 1; /* Pushes footer down */
+           }
+
+           footer {
+               padding: 1rem 0;
+               text-align: center;
+               font-size: 1rem;
+               background-color: rgba(207, 215, 207, 0.9);
+               color: #333;
+               width: 100%;
+               position: relative;
+           }
 
 		  </style>
 </head>
