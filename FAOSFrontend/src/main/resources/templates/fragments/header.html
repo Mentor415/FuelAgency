@@ -73,7 +73,7 @@
                   <i class="bi bi-house-fill"></i> Dashboard
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <form th:action="@{/booking}" th:object="${customer}" method="POST" enctype="multipart/form-data">
                   <input type="hidden" th:field="*{consumerId}" />
                   <input type="hidden" th:field="*{consumerName}" />
@@ -81,11 +81,11 @@
                   <input type="hidden" th:field="*{contactNo}" />
                   <input type="hidden" th:field="*{email}" />
     
-<!--                   <div class="button-container"> -->
-<!--                     <button type="submit" class="button-cylinder">Book Cylinder</button> -->
-<!--                   </div> -->
-<!--                 </form>  -->
-              </li>
+                  <div class="button-container">
+                    <button type="submit" class="button-cylinder">Book Cylinder</button>
+                  </div>
+                </form>
+              </li> -->
               <li class="nav-item">
                 <a th:href="@{/history(consumerId=${customer.consumerId})}" class="nav-link">
                   <i class="bi bi-calendar-check"></i> My Bookings
