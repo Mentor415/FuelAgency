@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.faos.model.Cylinder;
+import com.faos.model.CylinderStatus;
 import com.faos.model.Supplier;
 
 @Controller
@@ -120,13 +121,19 @@ public String deleteCylinder(@RequestParam String cylinderId, Model model, Redir
         
         // Retrieve the cylinder before deletion (if needed)
         ResponseEntity<Cylinder> response = restTemplate.getForEntity("http://localhost:8080/api/cylinders/" + cylinderId, Cylinder.class);
-        if (response.getBody() != null && "DELIVERED".equals(response.getBody().getStatus())) {
+        Cylinder cylinder = response.getBody();
+        if (cylinder == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Cylinder not found.");
+            return "redirect:/cylinders";
+        }
+        if (cylinder.getStatus() == CylinderStatus.DELIVERED) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Delivered cylinders cannot be deleted.");
             return "redirect:/cylinders";
         }
 
+
         // Attempt to delete the cylinder
         restTemplate.delete("http://localhost:8080/api/cylinders/" + cylinderId);
-        redirectAttributes.addFlashAttribute("message", cylinderId + " Deleted Successfully");
 
         System.out.println("Cylinder with ID " + cylinderId + " deleted successfully.");
     } catch (HttpClientErrorException.NotFound e) {
@@ -139,7 +146,7 @@ public String deleteCylinder(@RequestParam String cylinderId, Model model, Redir
         redirectAttributes.addFlashAttribute("errorMessage", "Unexpected error: " + errorMessage);
         return "redirect:/cylinders";
     }
-
+    model.addAttribute("message","Cylinder with ID "+cylinderId+" deleted successfully!");
     return "cylinder-success";
 }
 
