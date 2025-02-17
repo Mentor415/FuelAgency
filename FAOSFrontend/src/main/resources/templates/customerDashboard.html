@@ -25,10 +25,26 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
     <style>
+
+body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('/images/indexBg.jpg') no-repeat center center;
+        background-size: cover;
+        opacity: 0.3; /* Adjust the opacity to your liking */
+        z-index: -1; /* Send it behind everything */
+      }
+
+
       .password-section.container {
   display: flex;
   justify-content: space-between; /* Distribute buttons with space in between */
   align-items: center;
+  max-width: 1065px;
 }
 
 .button-cylinder {
@@ -64,6 +80,29 @@
 .bookings{
  color:white;
  text-decoration: none;
+      }
+      .arrow-link {
+        
+        font-size: 40px;
+        color: #4CAF50;
+        animation: bounce 1s infinite;
+      }
+
+      @keyframes bounce {
+        0%, 100% { transform: rotate(0deg) translateY(0); }
+        50% { transform: rotate(-0) translateY(-10px); }
+      }
+
+      .arrow-link:hover {
+        color: #45a049;
+        text-decoration: none;
+      }
+      .button-container{ 
+        max-width: 152px;
+        margin: 0 auto;
+      }
+      @media (max-width:992px){
+
       }
     </style>
     <link rel="stylesheet" href="/css/components/header.css" />
@@ -103,54 +142,66 @@
             <h2><i class="bi bi-person-circle"></i> Profile Information</h2>
           </div>
           <div class="card-content">
-            <div class="info-group">
-              <label>Name:</label>
-              <span th:text="${customer.consumerName}"></span>
-            </div>
-            <div class="info-group">
-              <label>Email:</label>
-              <span th:text="${customer.email}"></span>
-            </div>
-            <div class="info-group">
-              <label>Contact:</label>
-              <span th:text="${customer.contactNo}"></span>
-            </div>
-            <div class="info-group">
-              <label>Address:</label>
-              <span th:text="${customer.address}"></span>
-            </div>
-            <div class="info-group">
-              <label>Connection Type:</label>
-              <span th:text="${customer.connType}" class="connection-type"></span>
-            </div>
-            <div class="info-group">
-              <label>Status:</label>
-              <span  th:class="${customer.active ? 'status-badge active' : 'status-badge inactive'}"
-                th:text="${customer.active ? 'Active' : 'Inactive'}">
-              </span>
-            </div>
-          </div>
+            <div class="content">
 
-          <form>
-
-          </form>
-          <div class="password-section container">
-            <button class="button-primary" id="changePasswordButton">
-              Change Password
-            </button>
-
-            <form th:action="@{/booking}" th:object="${customer}" method="POST" enctype="multipart/form-data">
-              <input type="hidden" th:field="*{consumerId}" />
-              <input type="hidden" th:field="*{consumerName}" />
-              <textarea type="hidden" th:field="*{address}" rows="3" style="display: none;"></textarea>
-              <input type="hidden" th:field="*{contactNo}" />
-              <input type="hidden" th:field="*{email}" />
-
-              <div class="button-container">
-                <button type="submit" class="button-cylinder">Book Cylinder</button>
+              <div class="info-group">
+                <label>Name:</label>
+                <span th:text="${customer.consumerName}"></span>
               </div>
-            </form>
-          </div>
+              <div class="info-group">
+                <label>Email:</label>
+                <span th:text="${customer.email}"></span>
+              </div>
+              <div class="info-group">
+                <label>Contact:</label>
+                <span th:text="${customer.contactNo}"></span>
+              </div>
+              <div class="info-group">
+                <label>Address:</label>
+                <span th:text="${customer.address}"></span>
+              </div>
+              <div class="info-group">
+                <label>Connection Type:</label>
+                <span th:text="${customer.connType}" class="connection-type"></span>
+              </div>
+              <div class="info-group">
+                <label>Status:</label>
+                <span  th:class="${customer.active ? 'status-badge active' : 'status-badge inactive'}"
+                  th:text="${customer.active ? 'Active' : 'Inactive'}">
+                </span>
+              </div>
+              <div class="password-section container">
+                <button class="button-primary" id="changePasswordButton">
+                  Change Password
+                </button></div>
+            </div>
+           
+           <!-- Profile Image Section -->
+            <div class="right">
+              <div class="profile-image-section">
+                <img src="/images/cylinder-booking.jpg" 
+                     alt="Customer Profile" 
+                     class="profile-photo">
+                <a href="#book-cylinder" class="arrow-link">
+                  <i class="fa-solid fa-arrow-down"></i>
+                </a>
+              </div>
+              <form th:action="@{/booking}" th:object="${customer}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{consumerId}" />
+                <input type="hidden" th:field="*{consumerName}" />
+                <textarea type="hidden" th:field="*{address}" rows="3" style="display: none;"></textarea>
+                <input type="hidden" th:field="*{contactNo}" />
+                <input type="hidden" th:field="*{email}" />
+  
+                <div class="button-container">
+                  <button type="submit" class="button-cylinder">Book Cylinder</button>
+                </div>
+              </form>
+              </div>
+              
+            </div>
+          
+
 
 
           <div id="passwordFields" class="form-container hidden">

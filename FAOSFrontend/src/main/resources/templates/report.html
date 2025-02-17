@@ -38,6 +38,17 @@
       .hidden {
         display: none;
       }
+
+      .container {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        max-width: 1200px;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+
     </style>
   </head>
 
@@ -53,7 +64,7 @@
       <span th:if="${error}" th:text="${error}"></span>
     </div>
 
-    <div class="container-fluid mt-4">
+    <div class="container-fluid mt-4 container">
       <div class="row">
         <div class="col-md-12 text-center">
           <h1 class="fw-bold text-primary">Cylinder Booking Report</h1>
@@ -71,7 +82,7 @@
           <!-- Filters (Initially Hidden) -->
           <div id="filterSection" class="card mt-3 hidden">
             <div class="card-header bg-light">
-              <h4 class="fw-semibold">Filters</h4>
+              <h4 class="fw-semibold">Filter</h4>
             </div>
             <form th:action="@{/report/max-bookings}" method="post">
               <div class="row d-flex justify-content-center align-items-center">

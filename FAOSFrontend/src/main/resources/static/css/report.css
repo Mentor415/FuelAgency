@@ -48,6 +48,23 @@
     color: #721c24;
 }
 
+.container h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .report-toggle{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  
+ 
+
 /* Fade-in & Slide-down Animation */
 @keyframes fadeInSlideDown {
     from {
@@ -82,4 +99,24 @@
         padding: 10px 15px;
         top: 8%;
     }
+    .report-toggle{
+        flex-direction: column;
+        gap: 8px;
+    }
 }
+@media (max-width: 768px) {
+    .container h1 {
+      font-size: 2.2rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .container {
+      padding: 1.5rem;
+    }
+    .report-toggle{
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+  }
